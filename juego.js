@@ -25,13 +25,22 @@ class Juego {
 
     this.ponerFondo();
     this.ponerProtagonista();
+    
+    this.ponerNPCs();
 
-    this.ponerOvejas(500); //500
+    this.ponerOvejas(165, 0xFF0000); //500 rojo
+    this.ponerOvejas(165, 0x00FF00); //500 verde
+    this.ponerOvejas(170, 0x0000FF); //500 azul
+    // 0xFFFFFF es transparente.
 
     this.ponerPiedras(20);
 
     //this.ponerPastos(1000);
     this.ponerListeners();
+
+    PIXI.Loader.shared.load((loader, resources) => {
+      loader.callbacks.forEach(cb => cb(loader, resources));
+    });
 
     setTimeout(() => {
       this.app.ticker.add(this.actualizar.bind(this));
@@ -75,6 +84,16 @@ class Juego {
     );
   }
 
+  ponerNPCs() {
+    this.npc1 = new Npc(
+      window.innerWidth / 3,
+      window.innerHeight * 0.5,
+      5,
+      0x0000FF,
+      this
+    );
+  }
+
   ponerPiedras(cant) {
     for (let i = 0; i < cant; i++) {
       this.obstaculos.push(
@@ -87,7 +106,7 @@ class Juego {
     }
   }
 
-  ponerOvejas(cant) {
+  ponerOvejas(cant, tint) {
     // Crear algunos ovejas
     for (let i = 0; i < cant; i++) {
       //LA VELOCIDAD SE USA PARA LA VELOCIDAD MAXIMA CON LA Q SE MUEVE EL ZOMBIE
@@ -97,6 +116,7 @@ class Juego {
         Math.random() * this.canvasWidth,
         Math.random() * this.canvasHeight,
         velocidad,
+        tint,
         this
       ); // Pasar la grid a los ovejas
       this.ovejas.push(oveja);
@@ -148,6 +168,11 @@ class Juego {
     this.contadorDeFrames++;
 
     this.player.update();
+    this.npc1.update();
+    
+
+    // AGREGAR UPDATE NPCS !!
+
     this.ovejas.forEach((oveja) => {
       oveja.update();
     });

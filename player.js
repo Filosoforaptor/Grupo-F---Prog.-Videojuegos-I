@@ -28,7 +28,7 @@ class Player extends Objeto {
   manejarSprites() {
     if (Math.abs(this.velocidad.x) < 0.3 && Math.abs(this.velocidad.y) < 0.3) {
       if (this.spriteActual != "idle") {
-        this.cambiarSprite("sentandoseLado", 0, false, () => {          
+        this.cambiarSprite("sentandoseLado", 0, false, () => {
           this.cambiarSprite("idle");
         });
       }
@@ -61,7 +61,7 @@ class Player extends Objeto {
     this.fuerzas = fuerzas;
     this.aplicarFuerza(fuerzas);
   }
-  
+
   ajustarSpriteSegunAngulo() {
     let velLineal = calculoDeDistanciaRapido(
       0,

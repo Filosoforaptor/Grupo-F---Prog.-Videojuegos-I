@@ -3,7 +3,7 @@
 // Asegúrate de que el archivo utils.js esté incluido en tu index.html antes de este script
 
 class Oveja extends Objeto {
-  constructor(x, y, velMax, juego) {
+  constructor(x, y, velMax, tint, juego) {
     super(x, y, velMax, juego);
     this.VelMaxOriginal = velMax;
     this.velMaxEnModoHuir = velMax * 2;
@@ -13,6 +13,7 @@ class Oveja extends Objeto {
     this.vision = 120 + Math.floor(Math.random() * 150); //en pixels
     this.vida = 1;
     this.debug = 0;
+    this.tint = tint;
 
     this.cargarVariosSpritesAnimadosDeUnSoloArchivo(
       {
@@ -56,7 +57,12 @@ class Oveja extends Objeto {
       (animaciones) => {
         this.listo = true;
         this.cambiarSprite("correrLado");
-      }
+
+        // Aplicar tint a cada animación
+        for (let anim in animaciones) {
+          animaciones[anim].tint = this.tint;
+          };
+        }
     );
 
     this.estados = { IDLE: 0, HUYENDO: 1 };
@@ -64,7 +70,8 @@ class Oveja extends Objeto {
   }
 
   mirarAlrededor() {
-    this.vecinos = this.obtenerVecinos();
+    this.vecinos = this.obtenerVecinos(this.tint);
+    //this.vecinos = this.obtenerVecinos();
     this.celdasVecinas = this.miCeldaActual.obtenerCeldasVecinas();
     this.estoyViendoAlPlayer = this.evaluarSiEstoyViendoAlPlayer();
   }

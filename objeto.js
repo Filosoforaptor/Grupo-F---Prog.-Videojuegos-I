@@ -49,12 +49,14 @@ class Objeto {
     return sprite;
   }
 
-  cargarSpriteSheetAnimadoDeJSON(url, cb) {
+  cargarSpriteSheetAnimadoDeJSON(url, cb) { // Si le pones Async no explota pero tira error..
     console.log("#cargarSpriteSheetAnimadoDeJSON", url);
     const loader = PIXI.Loader.shared;
     let nombre = this.constructor.name;
 
-    loader.add(nombre, url).load((loader, resources) => {
+    loader.add(nombre, url);
+    loader.callbacks = loader.callbacks || [];
+    loader.callbacks.push((loader, resources) => {
       this.sheet = resources[nombre].spritesheet;
       let animaciones = Object.keys(this.sheet.animations);
 
@@ -189,7 +191,7 @@ class Objeto {
     this.grid.remove(this);
   }
 
-  obtenerVecinos() {
+  obtenerVecinos(tint) {
     let vecinos = [];
     const cellSize = this.grid.cellSize;
     const xIndex = Math.floor(this.container.x / cellSize);
@@ -204,7 +206,8 @@ class Objeto {
           vecinos = [
             ...vecinos,
             ...Object.values(cell.objetosAca).filter(
-              (k) => k != this && !k.decorado
+              (k) => k != this && !k.decorado && k.tint == tint
+              //(k) => k != this && !k.decorado
             ),
           ];
         }
