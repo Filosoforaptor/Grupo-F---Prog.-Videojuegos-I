@@ -92,6 +92,13 @@ class Juego {
       0x0000FF,
       this
     );
+    this.npc2 = new Npc(
+      window.innerWidth / 1.5,
+      window.innerHeight * 0.5,
+      5,
+      0x0000FF,
+      this
+    );
   }
 
   ponerPiedras(cant) {
@@ -169,6 +176,7 @@ class Juego {
 
     this.player.update();
     this.npc1.update();
+    this.npc2.update();
     
 
     // AGREGAR UPDATE NPCS !!
