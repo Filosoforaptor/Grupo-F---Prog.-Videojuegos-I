@@ -77,6 +77,31 @@ function radians_to_degrees(radians)
   return radians * (180/pi);
 }
 
+// Función para verificar colisión entre 2 sprites
+function colisiona(sprite1, sprite2) {
+  //console.log(typeof(sprite1), typeof(sprite2));
+  let bounds1 = sprite1.getBounds();
+  let bounds2 = sprite2.getBounds();
+  return bounds1.x < bounds2.x + bounds2.width &&
+         bounds1.x + bounds1.width > bounds2.x &&
+         bounds1.y < bounds2.y + bounds2.height &&
+         bounds1.y + bounds1.height > bounds2.y;
+}
+
+function eliminarContainerYHijos(container, juego) {
+  // Verificar si container es un PIXI.Container y tiene hijos
+  if (container instanceof PIXI.Container && container.children) {
+      while (container.children.length > 0) {
+          container.removeChild(container.children[0]);
+      }
+      // Luego eliminar el container del stage
+      juego.app.stage.removeChild(container);
+  } else {
+      console.error('El objeto no es un PIXI.Container o no tiene hijos:', container);
+  }
+  //debugger;
+}
+
 class Linea {
   constructor(juego, color, origen) {
     this.juego = juego;

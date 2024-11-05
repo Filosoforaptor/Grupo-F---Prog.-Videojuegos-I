@@ -6,6 +6,8 @@ class Npc extends Objeto {
     this.grid = juego.grid;
     this.targetTint = targetTint;
     this.linea = new Linea(this.juego, this.targetTint, this.container);
+    //this.vecinos = [];
+    this.contadorColisiones = 0;
 
     this.cargarVariosSpritesAnimadosDeUnSoloArchivo(
       {
@@ -103,7 +105,8 @@ class Npc extends Objeto {
 
     vecinos.forEach((oveja) => {
       if (oveja instanceof Oveja) {
-        // Medimos la distancia 
+        // Medimos la distancia
+        //console.log(oveja); // Mirar array de children del objeto antes de que se rompe.
         let newDist = calcularDistancia(this.container.x, this.container.y, oveja.container.x, oveja.container.y)
         if (newDist < targetDist) {
           targetDist = newDist;
@@ -123,10 +126,35 @@ class Npc extends Objeto {
 
     if (this.juego.contadorDeFrames % 4 == 1) {
       this.manejarSprites();
+      this.detectarColisiones();
+      //console.log((this.spritesAnimados[this.spriteActual]))
     }
     this.calcularYAplicarFuerzas();
     super.update();
   }
+
+  // Función para detectar colisiones
+ detectarColisiones() {
+  let vecinos = this.obtenerVecinos(this.targetTint, 3)
+  for (let i = vecinos.length - 1; i >= 0; i--) {
+      let enemigo = vecinos[i];
+      //console.log(this.vecinos);
+      //console.log(this.vecinos[i]);
+      if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
+        let id = this.juego.app.stage.getChildIndex(enemigo.container);
+        // Sumamos 1 al Score
+          this.contadorColisiones++;
+        // Eliminamos el container
+        eliminarContainerYHijos(enemigo.container, this.juego);
+        // Eliminamos de la grid para el tracking al enemigo.
+          this.juego.grid.remove(enemigo);
+        // Eliminamos de la lista de burbujas.
+          this.juego.ovejas.splice(this.juego.ovejas.indexOf(enemigo), 1);
+          //vecinos.splice(i, 1);
+          console.log('Colisiones:' + this.id + " " +  this.contadorColisiones);
+      }
+  }
+}
 
   manejarSprites() {
     if (Math.abs(this.velocidad.x) < 0.3 && Math.abs(this.velocidad.y) < 0.3) {
@@ -147,8 +175,8 @@ class Npc extends Objeto {
     let fuerzas = new PIXI.Point(0, 0);
     //ATRACCION A BURBUJA
     const vecAtraccionMouse = this.atraccionATarget();
-    console.log("Vector atraccion burbuja"); //
-    console.log(vecAtraccionMouse); //
+    //console.log("Vector atraccion burbuja"); //
+    //console.log(vecAtraccionMouse); //
     
     if (vecAtraccionMouse) {
       fuerzas.x += vecAtraccionMouse.x;
@@ -165,8 +193,8 @@ class Npc extends Objeto {
     fuerzas.x += bordes.x;
     fuerzas.y += bordes.y;
     this.fuerzas = fuerzas;
-    console.log("Vector Final"); //
-    console.log(fuerzas.x, fuerzas.y); //
+    //console.log("Vector Final"); //
+    //console.log(fuerzas.x, fuerzas.y); //
     this.aplicarFuerza(fuerzas);
   }
 
