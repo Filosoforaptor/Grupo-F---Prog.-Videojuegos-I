@@ -28,10 +28,6 @@ class Piedra extends Objeto {
       this.container.scale.x = -1;
       this.meterEnGrid();
     });
-
-    // this.cargarSpriteAnimado(url,300,300,0,e=>{
-    //     console.log(e)
-    // })
   }
 
   meterEnGrid() {

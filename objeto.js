@@ -15,8 +15,6 @@ class Objeto {
     this.velocidadMax = velocidadMax;
     this.velocidadMaxCuadrada = velocidadMax * velocidadMax;
 
-    // this.container.anchor.set(0.5,1); // Pivote en el centro
-
     this.spritesAnimados = {};
   }
   calcularAngulo() {
@@ -102,9 +100,7 @@ class Objeto {
 
           frames[i][j] = frame;
         }
-      } //for
-
-      // console.log("frames cortados", frames);
+      }
 
       let animaciones = Object.keys(inObj.animaciones);
       for (let i = 0; i < animaciones.length; i++) {
@@ -115,8 +111,6 @@ class Objeto {
           framesParaEstaAnimacion.push(frames[x][anim.hasta.y]);
         }
 
-        // console.log("#" + animaciones[i], framesParaEstaAnimacion);
-
         const animatedSprite = new PIXI.AnimatedSprite(framesParaEstaAnimacion);
         animatedSprite.animationSpeed = inObj.velocidad;
         animatedSprite.loop = true;
@@ -125,7 +119,6 @@ class Objeto {
 
         retObj[animaciones[i]] = animatedSprite;
       } //for animaciones
-      // console.log("returnn", retObj);
       this.spritesAnimados = retObj;
       if (cb instanceof Function) cb(retObj);
     });
@@ -165,11 +158,10 @@ class Objeto {
             frameHeight
           );
           const frame = new PIXI.Texture(texture.baseTexture, rectangle);
-          // frame.anchor.set(0.5,1)
 
           frames.push(frame);
         }
-      } //for
+      }
 
       const animatedSprite = new PIXI.AnimatedSprite(frames);
 
@@ -220,6 +212,7 @@ class Objeto {
     }
     return vecinos;
   }
+
   estoyEnLaMismaCeldaQue(fulano) {
     return (
       fulano.miCeldaActual &&
@@ -227,6 +220,7 @@ class Objeto {
       fulano.miCeldaActual == this.miCeldaActual
     );
   }
+
   normalizarVelocidad() {
     if (this.velocidad.x == 0 && this.velocidad.y == 0) {
       return;
@@ -250,8 +244,6 @@ class Objeto {
   }
 
   update() {
-    // this.normalizarVelocidad();
-
     this.container.x += this.velocidad.x;
     this.container.y += this.velocidad.y;
 
@@ -294,7 +286,6 @@ class Objeto {
     if (this.container.x > limiteDerecho) fuerza.x = -cuantaFuerza;
     if (this.container.y > limiteAbajo) fuerza.y = -cuantaFuerza;
 
-    // if(this.debug)console.log(fuerza)
     return fuerza;
   }
 
@@ -327,8 +318,6 @@ class Objeto {
     if (cant) {
       vecFuerza.x *= 40;
       vecFuerza.y *= 40;
-      // vecFuerza.x += -this.velocidad.x;
-      // vecFuerza.y += -this.velocidad.y;
     }
 
     return vecFuerza;
@@ -336,9 +325,6 @@ class Objeto {
 
   aplicarFuerza(fuerza) {
     if (!fuerza) return;
-    // let limiteDeFuerza = 0.1;
-    // //SI LA FUERZA Q LE VAMOS A APLICAR ES MUY POCA, NI LA APLICAMOS
-    // if(Math.abs(fuerza.x)<limiteDeFuerza && Math.abs(fuerza.y)<limiteDeFuerza) return;
     this.velocidad.x += fuerza.x;
     this.velocidad.y += fuerza.y;
 

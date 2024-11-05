@@ -13,66 +13,6 @@ class Player extends Objeto {
         sprite.anchor.set(0.5, 1);
       }
     });
-
-    // this.cargarVariosSpritesAnimadosDeUnSoloArchivo(
-    //   {
-    //     archivo: "./img/perro.png",
-    //     frameWidth: 32,
-    //     frameHeight: 32,
-    //     velocidad: velMax * 0.05,
-    //     animaciones: {
-    //       correrAbajo: {
-    //         desde: {
-    //           x: 0,
-    //           y: 0,
-    //         },
-    //         hasta: {
-    //           x: 3,
-    //           y: 0,
-    //         },
-    //       },
-    //       correrLado: {
-    //         desde: {
-    //           x: 0,
-    //           y: 1,
-    //         },
-    //         hasta: {
-    //           x: 3,
-    //           y: 1,
-    //         },
-    //       },
-    //       correrArriba: {
-    //         desde: {
-    //           x: 0,
-    //           y: 2,
-    //         },
-    //         hasta: {
-    //           x: 3,
-    //           y: 2,
-    //         },
-    //       },
-    //       idle: {
-    //         desde: {
-    //           x: 3,
-    //           y: 7,
-    //         },
-    //         hasta: {
-    //           x: 3,
-    //           y: 7,
-    //         },
-    //       },
-    //     },
-    //   },
-    //   (animaciones) => {
-    //     this.listo = true;
-    //     this.cambiarSprite("correrLado");
-    //     for (let sprite of Object.values(this.spritesAnimados)) {
-    //       sprite.scale.set(2);
-    //     }
-    //   }
-    // );
-
-    // this.juego.app.stage.addChild(this.sprite);
   }
 
   update() {
@@ -83,7 +23,6 @@ class Player extends Objeto {
     }
     this.calcularYAplicarFuerzas();
     super.update();
-    // this.limitarVelocidadSiHayObstaculos()
   }
 
   manejarSprites() {
@@ -93,30 +32,12 @@ class Player extends Objeto {
           this.cambiarSprite("idle");
         });
       }
-      //  this.cambiarSprite("idle");
     } else {
       this.calcularAngulo();
       this.ajustarSpriteSegunAngulo();
     }
     this.hacerQueLaVelocidadDeLaAnimacionCoincidaConLaVelocidad();
   }
-
-  // limitarVelocidadSiHayObstaculos(){
-  //   let numeroDeFrames=2
-  //   let xDelFuturo=this.container.x+this.velocidad.x*numeroDeFrames
-  //   let yDelFuturo=this.container.y+this.velocidad.y*numeroDeFrames
-
-  //   let celdaDondeVoyAEstarEnElFuturo=this.juego.grid.getCellPX(xDelFuturo,yDelFuturo)
-  //   let piedrasEnLaCeldaDelFuturo=Object.values(celdaDondeVoyAEstarEnElFuturo.objetosAca).filter(k=>k instanceof Piedra)
-  //   if(piedrasEnLaCeldaDelFuturo.length){
-  //     if(Math.abs(this.velocidad.x)>Math.abs(this.velocidad.y)){
-  //       this.velocidad.x=0
-  //     }else{
-  //       this.velocidad.y=0
-  //     }
-  //   }
-
-  // }
 
   calcularYAplicarFuerzas() {
     //EN FUERZAS VOY A SUMAR TODAS LAS FUERZAS Q FRAME A FRAME ACTUAN SOBRE EL PERRITO
@@ -140,6 +61,7 @@ class Player extends Objeto {
     this.fuerzas = fuerzas;
     this.aplicarFuerza(fuerzas);
   }
+  
   ajustarSpriteSegunAngulo() {
     let velLineal = calculoDeDistanciaRapido(
       0,

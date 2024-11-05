@@ -37,17 +37,11 @@ class Grid {
     const yIndex = Math.floor(objeto.container.y / this.cellSize);
 
     const cell = this.getCell(xIndex, yIndex);
-    if (!cell) return; //console.warn("Cell not found",xIndex,yIndex);
+    if (!cell) return;
     cell.agregar(objeto);
   }
 
   remove(objeto) {
-    // for (let i = 0; i < this.cells.length; i++) {
-    //   for (let j = 0; j < this.cells[i].length; j++) {
-    //     let cell = this.cells[i][j];
-    //     cell = cell.filter((k) => k != objeto);
-    //   }
-    // }
     if (objeto.miCeldaActual) {
       objeto.miCeldaActual.sacar(objeto);
     }

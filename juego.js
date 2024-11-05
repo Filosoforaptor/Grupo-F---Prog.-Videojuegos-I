@@ -22,17 +22,15 @@ class Juego {
     this.keyboard = {};
 
     this.app.stage.sortableChildren = true;
-    // this.hacerCosasParaQSeVeaPixelado()
-
 
     this.ponerFondo();
     this.ponerProtagonista();
 
-    this.ponerOvejas(500);
+    this.ponerOvejas(500); //500
 
     this.ponerPiedras(20);
 
-    this.ponerPastos(1000);
+    //this.ponerPastos(1000);
     this.ponerListeners();
 
     setTimeout(() => {
@@ -63,7 +61,6 @@ class Juego {
     PIXI.Texture.fromURL("./img/bg2.png").then((patternTexture) => {
       // Crear un sprite con la textura del patrón
       this.backgroundSprite = new PIXI.TilingSprite(patternTexture, 5000, 5000);
-      // this.backgroundSprite.tileScale.set(0.5);
 
       // Añadir el sprite al stage
       this.app.stage.addChild(this.backgroundSprite);
@@ -162,15 +159,6 @@ class Juego {
       decorado.update();
     });
 
-    // this.obstaculos.forEach((obstaculo) => {
-    //   obstaculo.update();
-    // });
-
-    // //CADA 5 FRAMES ACTUALIZO LA GRILLA
-    // if (this.contadorDeFrames % 5 == 0) {
-    //   this.grid.actualizarCantidadSiLasCeldasSonPasablesONo();
-    // }
-
     this.moverCamara();
   }
 
@@ -211,5 +199,6 @@ class Juego {
   }
 }
 
-// Inicializar el juego
-let juego = new Juego();
+function StartGame() {
+  return new Juego();
+}

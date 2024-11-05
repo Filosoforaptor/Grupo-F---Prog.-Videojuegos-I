@@ -18,7 +18,6 @@ class Pasto extends Objeto {
     texture.baseTexture.on("loaded", () => {
       this.sprite = new PIXI.Sprite(texture);
       this.sprite.scale.set(1.5 + Math.random() * 0.5);
-      // this.radio=this.juego.grid.cellSize*0.5
       this.sprite.anchor.set(0.5, 1);
 
       this.container.addChild(this.sprite);
@@ -27,10 +26,6 @@ class Pasto extends Objeto {
       this.container.scale.x = Math.random() > 0.5 ? 1 : -1;
       this.actualizarPosicionEnGrid();
     });
-
-    // this.cargarSpriteAnimado(url,300,300,0,e=>{
-    //     console.log(e)
-    // })
   }
   update() {
     if(!this.sprite) return
