@@ -89,7 +89,7 @@ class Npc extends Objeto {
   }
 
   cazarOvejaCercana() {
-    let vecinos = this.obtenerVecinos(this.targetTint) // Buscamos las ovejas para cazar
+    let vecinos = this.obtenerVecinos(this.targetTint, 8) // Buscamos las ovejas para cazar
     //console.log(vecinos);
     let targetDist = 99999;
     let currentTarget;
@@ -111,7 +111,7 @@ class Npc extends Objeto {
         }
       }
     });
-    console.log(currentTarget);
+    //(currentTarget);
     if(currentTarget != undefined) {
         this.linea.drawLineToTarget(currentTarget.container.x, currentTarget.container.y);
     } 
@@ -145,10 +145,11 @@ class Npc extends Objeto {
   calcularYAplicarFuerzas() {
     //EN FUERZAS VOY A SUMAR TODAS LAS FUERZAS Q FRAME A FRAME ACTUAN SOBRE EL PERRITO
     let fuerzas = new PIXI.Point(0, 0);
-    //ATRACCION AL MOUSE
+    //ATRACCION A BURBUJA
     const vecAtraccionMouse = this.atraccionATarget();
-    //const vecAtraccionMouse = 0;
-    //console.log("vec atrc " + vecAtraccionMouse);
+    console.log("Vector atraccion burbuja"); //
+    console.log(vecAtraccionMouse); //
+    
     if (vecAtraccionMouse) {
       fuerzas.x += vecAtraccionMouse.x;
       fuerzas.y += vecAtraccionMouse.y;
@@ -164,6 +165,8 @@ class Npc extends Objeto {
     fuerzas.x += bordes.x;
     fuerzas.y += bordes.y;
     this.fuerzas = fuerzas;
+    console.log("Vector Final"); //
+    console.log(fuerzas.x, fuerzas.y); //
     this.aplicarFuerza(fuerzas);
   }
 
@@ -193,15 +196,16 @@ class Npc extends Objeto {
     }
   }
 
-  atraccionATarget() { // TOCA REWORKEARLA PARA QUE SIEMPRE SIGA 1 BURBUJA .... Y NO SOLO CUANDO ESTE EN LA MISMA CELDA
-    // HACER FUNCION PROPIA Q REMPLAZE A BUSCAR VECINOS Y ESCANEE TODO en game.ovejas 
+  atraccionATarget() { 
     let target = this.cazarOvejaCercana()
     //console.log(" TARGET: " + target );
     if (!target) return { x: 0, y: 0 }
 
     const vecMouse = new PIXI.Point(
-      target.container.x - this.juego.app.stage.x - this.container.x,
-      target.container.y - this.juego.app.stage.y - this.container.y
+      //target.container.x - this.juego.app.stage.x - this.container.x,
+      //target.container.y - this.juego.app.stage.y - this.container.y
+      target.container.x - this.container.x,
+      target.container.y - this.container.y
     );
     //console.log(vecMouse);
     //console.log("vec mouse");

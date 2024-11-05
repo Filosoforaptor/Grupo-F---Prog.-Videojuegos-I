@@ -191,12 +191,12 @@ class Objeto {
     this.grid.remove(this);
   }
 
-  obtenerVecinos(tint) {
+  obtenerVecinos(tint, margen = 1) {
     let vecinos = [];
     const cellSize = this.grid.cellSize;
     const xIndex = Math.floor(this.container.x / cellSize);
     const yIndex = Math.floor(this.container.y / cellSize);
-    const margen = 1;
+    //const margen = 1;
     // Revisar celdas adyacentes
     for (let i = -margen; i <= margen; i++) {
       for (let j = -margen; j <= margen; j++) {

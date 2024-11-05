@@ -90,11 +90,11 @@ class Linea {
     try {
       this.juego.app.stage.removeChild(this.myGraph);
       this.myGraph.clear();
-      console.log("Se borro.");
+      //console.log("Se borro.");
     } catch (e) {
-      console.log("No existe la linea");
+      //console.log("No existe la linea");
     }
-    console.log(targetX, " ", targetY);
+    //console.log(targetX, " ", targetY);
 
     // Draw the line
     this.myGraph.lineStyle(2, this.color, 1);
