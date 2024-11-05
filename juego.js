@@ -89,6 +89,23 @@ class Juego {
       // Añadir el sprite al stage
       //this.backgroundSprite.zIndex = -50;
       this.gameContainer.addChildAt(this.backgroundSprite, 0);
+
+      // ---------------- FILTRO  AGUA ----------------------
+      // Crear una textura de desplazamiento
+      const displacementSprite = PIXI.Sprite.from('displacement.png');
+      displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
+      this.gameContainer.addChildAt(displacementSprite, 1);
+
+      // Crear y aplicar el filtro de desplazamiento
+      const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
+      this.backgroundSprite.filters = [displacementFilter];
+
+      // Animar el filtro para simular el efecto de agua
+      this.app.ticker.add((delta) => {
+        displacementSprite.x += 1 * delta;
+        displacementSprite.y += 1 * delta;
+    });
+
     });
   }
 
