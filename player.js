@@ -4,6 +4,8 @@ class Player extends Objeto {
     this.velocidadMax = velMax;
     this.juego = juego;
     this.grid = juego.grid;
+    this.contadorColisiones = 0;
+    this.targetTint = 0x00FF00;
 
     this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
       this.listo = true;
@@ -20,10 +22,39 @@ class Player extends Objeto {
 
     if (this.juego.contadorDeFrames % 4 == 1) {
       this.manejarSprites();
+      this.detectarColisiones();
     }
     this.calcularYAplicarFuerzas();
     super.update();
   }
+
+  // Función para detectar colisiones
+ detectarColisiones() {
+  let vecinos = this.obtenerVecinos(this.targetTint, 3)
+  for (let i = vecinos.length - 1; i >= 0; i--) {
+      // Si es una piedra la ignoramos.
+      //console.log("Vecinos Player: ", vecinos.length);
+      //console.log(i, " Clase Tipo : ", vecinos[i].constructor.name);
+      if(!(vecinos[i] instanceof Oveja)) {continue;};
+
+      let enemigo = vecinos[i];
+      //console.log(enemigo);
+      //console.log("Clase de la colision: " + enemigo.constructor.name);
+      if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
+        let id = this.juego.app.stage.getChildIndex(enemigo.container);
+        // Sumamos 1 al Score
+          this.contadorColisiones++;
+        // Eliminamos el container
+        eliminarContainerYHijos(enemigo.container, this.juego);
+        // Eliminamos de la grid para el tracking al enemigo.
+          this.juego.grid.remove(enemigo);
+        // Eliminamos de la lista de burbujas.
+          this.juego.ovejas.splice(this.juego.ovejas.indexOf(enemigo), 1);
+          //vecinos.splice(i, 1);
+          console.log('Colisiones Player: '+  this.contadorColisiones);
+      }
+  }
+}
 
   manejarSprites() {
     if (Math.abs(this.velocidad.x) < 0.3 && Math.abs(this.velocidad.y) < 0.3) {
