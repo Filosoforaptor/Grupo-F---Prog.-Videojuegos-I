@@ -15,6 +15,7 @@ class UI {
         this.paddingMM = 10;
         this.anchoMM = 400;
         this.altoMM = 300;
+        this.burbujas = [];
 
         // Crear los textos 
 
@@ -139,6 +140,7 @@ class UI {
         // Agregamos un cuadradito del player y los npc
         this.ponerPlayerEnMinimapa();
         this.ponerNPCsEnMinimapa();
+        this.ponerBurbujasEnMinimapa();
     }
 
     ponerPlayerEnMinimapa() {
@@ -166,6 +168,33 @@ class UI {
         this.minimap.addChild(this.npc2);
     }
 
+    sacarBurbujasDeMinimapa() {
+        this.burbujas.forEach(burbuja => {
+            this.minimap.removeChild(burbuja);
+        });
+        this.burbujas = [];
+    }
+
+    ponerBurbujasEnMinimapa() {
+        // Limpio las viejas
+        this.sacarBurbujasDeMinimapa();
+        // Creo el rectángulo del personaje en el minimapa
+        this.juego.ovejas.forEach(burbuja => {
+            if (burbuja.tint == this.juego.player.targetTint) {
+                let burbujita = new PIXI.Graphics();
+                burbujita.beginFill(0xFFFFFF); // Color BURBUJAS en minimapa
+                let burbujaX = (burbuja.container.x / this.juego.canvasWidth) * this.anchoMM;
+                let burbujaY = (burbuja.container.y / this.juego.canvasHeight) * this.altoMM;
+                burbujita.drawCircle(burbujaX, burbujaY, 5); // Tamaño del circulo (ajústalo según tus necesidades)
+                burbujita.endFill();
+                this.burbujas.push(burbujita);
+                this.minimap.addChild(burbujita);
+            }
+        }
+        )
+
+    }
+
     updateMinimap() {
         // Calcula la posición del personaje en el minimapa PARA PLAYER
         let minimapX = (this.juego.player.container.x / this.juego.canvasWidth) * this.anchoMM;
@@ -183,6 +212,10 @@ class UI {
         let mmNpc2PosX = (this.juego.npc2.container.x / this.juego.canvasWidth) * this.anchoMM;
         let mmNpc2PosY = (this.juego.npc2.container.y / this.juego.canvasHeight) * this.altoMM;
         this.npc2.position.set(mmNpc2PosX, mmNpc2PosY);
+
+        // Burbujas
+
+        this.ponerBurbujasEnMinimapa();
     }
 
 
