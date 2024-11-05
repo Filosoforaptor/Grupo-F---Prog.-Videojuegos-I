@@ -7,11 +7,12 @@ class Player extends Objeto {
     this.contadorColisiones = 0;
     this.targetTint = 0x00FF00;
     // Para maquina de estados que maneja power ups
-    this.estados = { NORMAL: 0, JABONOSO: 1};
+    this.estados = { NORMAL: 0, JABONOSO: 1 };
     this.estado = this.estados.NORMAL;
     this.duracionPowerUp = 60;//  EN FRAMES
     this.potenciaPowerUp = 8; // 5 es el normal. RECOMIENDO 8 o 10.
     this.timer = this.duracionPowerUp;
+    this.container.zIndex = 10;
 
     this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
       this.listo = true;
@@ -77,23 +78,20 @@ class Player extends Objeto {
     });
   }
 
-  hacerCosasSegunEstado()
-  {
+  hacerCosasSegunEstado() {
     // SI EL PLAYER TOCO UN JABON
-    if (this.estado == this.estados.JABONOSO)
-      {
-        this.velocidadMax = this.potenciaPowerUp;
-        this.timer --;
-        // Si se acaba el timer, cambiamos el estado a NORMAL.
-        if(this.timer == 0)
-        {
-          this.timer = this.duracionPowerUp;
-          this.estado = this.estados.NORMAL;
-          this.velocidadMax = 5;
-          console.log("Se acabo power up!");
-          return;
-        }
+    if (this.estado == this.estados.JABONOSO) {
+      this.velocidadMax = this.potenciaPowerUp;
+      this.timer--;
+      // Si se acaba el timer, cambiamos el estado a NORMAL.
+      if (this.timer == 0) {
+        this.timer = this.duracionPowerUp;
+        this.estado = this.estados.NORMAL;
+        this.velocidadMax = 5;
+        console.log("Se acabo power up!");
+        return;
       }
+    }
     // ACA PODRIAN IR MAS POSIBLES ESTADOS QUE NO TENEMOS
   }
 
@@ -160,6 +158,7 @@ class Player extends Objeto {
       this.cambiarSprite("correrAbajo");
     }
   }
+
 
   atraccionAlMouse() {
     if (!this.juego.mouse) return null;

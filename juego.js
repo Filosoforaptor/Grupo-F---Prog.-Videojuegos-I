@@ -35,9 +35,9 @@ class Juego {
     this.ponerFondo();
 
     this.ponerJabones(20);
+    this.ponerProtagonista();
     this.ponerPiedras(20);
 
-    this.ponerProtagonista();
 
     this.ponerNPCs();
 
@@ -244,10 +244,10 @@ class Juego {
     this.decorados.forEach((decorado) => {
       decorado.update();
     });
-
+    
     this.obstaculos.forEach((piedra) => {
       piedra.update();
-    });
+    }); 
 
     this.moverCamara();
   }
