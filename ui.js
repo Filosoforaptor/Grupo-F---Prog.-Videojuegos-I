@@ -11,11 +11,12 @@ class UI {
         this.timer = 60;
         this.stop = false;
 
-        // Crear los textos
-        this.score1 = new PIXI.Text('Texto 1', { fontFamily: 'fuente', fontSize: 50, fill: 0xFF0000 }); // NPC 2
-        this.score2 = new PIXI.Text('Texto 2', { fontFamily: 'fuente', fontSize: 50, fill: 0x00FF00 }); //Player
-        this.score3 = new PIXI.Text('Texto 3', { fontFamily: 'fuente', fontSize: 50, fill: 0x0000FF }); // NPC 1
-        this.reloj = new PIXI.Text(this.timer, { fontFamily: 'fuente', fontSize: 50, fill: 0x0F000F }); // Reloj
+        // Crear los textos 
+        
+        this.score1 = new PIXI.Text('Texto 1', { fontFamily: 'fuente', fontSize: 50, fill: 0xFF0000, padding: 20 }); // NPC 2
+        this.score2 = new PIXI.Text('Texto 2', { fontFamily: 'fuente', fontSize: 50, fill: 0x00FF00, padding: 20 }); //Player
+        this.score3 = new PIXI.Text('Texto 3', { fontFamily: 'fuente', fontSize: 50, fill: 0x0000FF, padding: 20 }); // NPC 1
+        this.reloj = new PIXI.Text(this.timer, { fontFamily: 'fuente', fontSize: 50, fill: 0x0F000F, padding: 20 }); // Reloj 
 
         // Posicionar los textos
         this.score1.position.set(50, 50);
@@ -42,7 +43,7 @@ class UI {
         if(this.stop) {return;} // Si se termino salimos
 
         // Terminar juego
-        if(this.timer == 0)
+        if(this.timer == 58)
         {
             this.ejecutarAlgo();
             this.stop = true

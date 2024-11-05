@@ -17,6 +17,7 @@ class Objeto {
 
     this.spritesAnimados = {};
   }
+  
   calcularAngulo() {
     this.angulo =
       (radians_to_degrees(Math.atan2(this.velocidad.x, this.velocidad.y)) -

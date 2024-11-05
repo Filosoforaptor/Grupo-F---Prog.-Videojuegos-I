@@ -5,6 +5,7 @@ class Piedra extends Objeto {
     this.juego = juego;
 
     this.debug = 0;
+    this.velocidadDeMovimientoRandom = getRandomBetween(0.6, 0.3);
 
     let cualRoca = Math.floor(Math.random() * 4) + 1;
     let url = "./img/roca" + cualRoca + ".png";
@@ -15,10 +16,11 @@ class Piedra extends Objeto {
 
       //   let height = texture.baseTexture.height;
       this.sprite = new PIXI.Sprite(texture);
+
       // this.sprite.width=700
       // this.sprite.height=310
       //GUARDO EL RADIO DEL OBSTACULO PORQ LO USO PARA DETECTAR COLISIONES CON LOS PERSONAJES
-      this.radio =    this.sprite.width * 0.5;
+      this.radio = this.sprite.width * 0.5;
       // this.radio=this.juego.grid.cellSize*0.5
       this.sprite.anchor.set(0.5, 0.82);
 
@@ -28,6 +30,19 @@ class Piedra extends Objeto {
       this.container.scale.x = -1;
       this.meterEnGrid();
     });
+  }
+
+  update() {
+    if (!this.sprite) return
+    this.sprite.skew.x =
+      Math.sin(
+        this.juego.contadorDeFrames * 0.04 * this.velocidadDeMovimientoRandom
+      ) * 0.1;
+      this.sprite.skew.y =
+      Math.cos(
+        this.juego.contadorDeFrames * 0.04 * this.velocidadDeMovimientoRandom
+      ) * 0.1;
+    super.update();
   }
 
   meterEnGrid() {

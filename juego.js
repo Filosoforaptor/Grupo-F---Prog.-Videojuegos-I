@@ -25,7 +25,7 @@ class Juego {
     this.balas = [];
     this.obstaculos = [];
     this.jabones = [];
-    this.decorados = []
+    this.decorados = [];
 
     this.keyboard = {};
 
@@ -46,9 +46,12 @@ class Juego {
     this.ponerOvejas(170, 0x0000FF); //500 azul
     // 0xFFFFFF es transparente.
 
-    
-
     //this.ponerPastos(1000);
+
+    // -------- FILTROS  --------  //
+    //this.prenderFiltroASCII(8);
+    //this.prenderFiltroPixel(4)
+
     this.ponerListeners();
 
     PIXI.Loader.shared.load((loader, resources) => {
@@ -99,12 +102,14 @@ class Juego {
       // Crear y aplicar el filtro de desplazamiento
       const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
       this.backgroundSprite.filters = [displacementFilter];
+      // Peque;o blur al fondo
+      //this.prenderFiltroBlur(1, this.backgroundSprite);
 
       // Animar el filtro para simular el efecto de agua
       this.app.ticker.add((delta) => {
         displacementSprite.x += 1 * delta;
         displacementSprite.y += 1 * delta;
-    });
+      });
 
     });
   }
@@ -240,6 +245,10 @@ class Juego {
       decorado.update();
     });
 
+    this.obstaculos.forEach((piedra) => {
+      piedra.update();
+    });
+
     this.moverCamara();
   }
 
@@ -285,6 +294,46 @@ class Juego {
     );
   }
 
+  prenderFiltroASCII(sizeAscii) {
+    // Crear y aplicar el filtro ASCII
+    const asciiFilter = new PIXI.filters.AsciiFilter();
+    this.gameContainer.filters = [asciiFilter];
+    // Configurar los parámetros del filtro
+    asciiFilter.size = sizeAscii; // Ajusta el tamaño de los caracteres ASCII
+
+    /*   // CODIGO SECRETO QUE NO RECOMIENDO ACTIVAR XD 
+    let increment = true; // Dirección del cambio
+    this.app.ticker.add((delta) => {
+
+      // Ajustar la variable
+      if (increment) {
+        asciiFilter.size += delta * 0.1;  // Ajustar la velocidad de cambio
+        if (asciiFilter.size >= 20) increment = false;
+      } else {
+        asciiFilter.size -= delta * 0.1;
+        if (asciiFilter.size <= 8) increment = true;
+      }
+
+    }); */
+  }
+
+  prenderFiltroPixel(sizePixels) {
+    // Crear y aplicar el filtro Pixelador
+    const pixelateFilter = new PIXI.filters.PixelateFilter();
+    // Configurar los parámetros del filtro
+    pixelateFilter.size = sizePixels; // Ajusta el tamaño de los pixeles
+    this.gameContainer.filters = [pixelateFilter];
+  }
+
+  prenderFiltroBlur(sizeBlur, target) {
+    // Crear y aplicar el filtro Blue
+    const blurFilter = new PIXI.filters.BlurFilter();
+    // Configurar los parámetros del filtro
+    blurFilter.size = sizeBlur; // Ajusta el tamaño de los pixeles
+    blurFilter.quality = 10
+    target.filters.push(blurFilter);
+  }
+
   StartEndScreen() {
     this.app.destroy(true);
     // Creamos la app de creditos.
@@ -305,6 +354,16 @@ class Juego {
         fondo.height = this.app.screen.height;
         // Añadir los sprites al escenario
         this.app.stage.addChild(fondo);
+
+        // Función para redimensionar el canvas y los sprites
+        const resizeGO = () => {
+          this.app.renderer.resize(window.innerWidth, window.innerHeight);
+          fondo.width = this.app.screen.width;
+          fondo.height = this.app.screen.height;;
+        }
+
+        // Para arreglar lo del tama;o si cambia.
+        window.addEventListener("resize", resizeGO);
       });
   }
 }

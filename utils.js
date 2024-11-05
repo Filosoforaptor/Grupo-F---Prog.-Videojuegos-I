@@ -32,6 +32,11 @@ function calculoDeDistanciaRapido(x1, y1, x2, y2) {
   }
 }
 
+function getRandomBetween(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+
 // Función para calcular la distancia entre dos puntos
 function calculoDeDistancia(x1, y1, x2, y2) {
   const dx = x2 - x1;
