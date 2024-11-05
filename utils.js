@@ -76,4 +76,33 @@ function radians_to_degrees(radians)
   // Multiply radians by 180 divided by pi to convert to degrees.
   return radians * (180/pi);
 }
+
+class Linea {
+  constructor(juego, color, origen) {
+    this.juego = juego;
+    this.myGraph = new PIXI.Graphics();
+    this.juego.app.stage.addChild(this.myGraph);
+    this.color = color;
+    this.origen = origen;
+  }
+
+  drawLineToTarget(targetX, targetY) {
+    try {
+      this.juego.app.stage.removeChild(this.myGraph);
+      this.myGraph.clear();
+      console.log("Se borro.");
+    } catch (e) {
+      console.log("No existe la linea");
+    }
+    console.log(targetX, " ", targetY);
+
+    // Draw the line
+    this.myGraph.lineStyle(2, this.color, 1);
+    this.myGraph.moveTo(this.origen.x, this.origen.y);
+    this.myGraph.lineTo(targetX, targetY);
+    // Add the graphics
+    this.juego.app.stage.addChild(this.myGraph);
+  }
+}
+
           

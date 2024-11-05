@@ -96,7 +96,7 @@ class Juego {
       window.innerWidth / 1.5,
       window.innerHeight * 0.5,
       5,
-      0x0000FF,
+      0xFF0000,
       this
     );
   }

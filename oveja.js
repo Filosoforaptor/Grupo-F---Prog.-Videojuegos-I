@@ -71,7 +71,6 @@ class Oveja extends Objeto {
 
   mirarAlrededor() {
     this.vecinos = this.obtenerVecinos(this.tint);
-    //this.vecinos = this.obtenerVecinos();
     this.celdasVecinas = this.miCeldaActual.obtenerCeldasVecinas();
     this.estoyViendoAlPlayer = this.evaluarSiEstoyViendoAlPlayer();
   }
