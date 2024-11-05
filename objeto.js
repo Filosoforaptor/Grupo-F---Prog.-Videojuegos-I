@@ -340,6 +340,7 @@ class Objeto {
       this.velocidad.y = (this.velocidad.y / magnitud) * this.velocidadMax;
     }
   }
+  
   actualizarLado() {
     if (this.velocidad.x > 0) {
       this.container.scale.x = 1;

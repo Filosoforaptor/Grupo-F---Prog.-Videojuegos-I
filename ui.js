@@ -19,9 +19,9 @@ class UI {
 
         // Posicionar los textos
         this.score1.position.set(50, 50);
-        this.score2.position.set(50, 100);
-        this.score3.position.set(50, 150);
-        this.reloj.position.set(200, 50);
+        this.score2.position.set(50, 125);
+        this.score3.position.set(50, 200);
+        this.reloj.position.set(window.innerWidth / 1.105 , 50); // 200
 
         // Agregar los textos al container
         this.container.addChild(this.score1);
@@ -69,5 +69,6 @@ class UI {
     ejecutarAlgo()
     {
         console.log("Game Over");
+        this.juego.StartEndScreen();
     }
 }

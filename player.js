@@ -23,6 +23,7 @@ class Player extends Objeto {
     if (this.juego.contadorDeFrames % 4 == 1) {
       this.manejarSprites();
       this.detectarColisiones();
+      this.detectarColisionesJabones();
     }
     this.calcularYAplicarFuerzas();
     super.update();
@@ -39,7 +40,6 @@ class Player extends Objeto {
       //console.log(enemigo);
       //console.log("Clase de la colision: " + enemigo.constructor.name);
       if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
-        let id = this.juego.gameContainer.getChildIndex(enemigo.container);
         // Sumamos 1 al Score
         this.contadorColisiones++;
         // Eliminamos el container
@@ -52,6 +52,21 @@ class Player extends Objeto {
         //console.log('Colisiones Player: ' + this.contadorColisiones);
       }
     }
+  }
+
+  detectarColisionesJabones() {
+    this.juego.jabones.forEach(jabon => {
+      if (colisiona(this.spritesAnimados[this.spriteActual], jabon.sprite)) {
+        console.log("Colisión detectada con un jabón!");
+
+        // Manejar la colisión // Por ahora no hace nada
+        this.velocidad.x *= jabon.speedUpValue;
+        this.velocidad.y *= jabon.speedUpValue;
+        //super.update(); Causa que se teletransporte xq no aplica las fuerzas.
+        // Si las aplico , tengo drama xq la velocidad max me limita el movimiento..
+        return;
+      }
+    });
   }
 
   manejarSprites() {
@@ -87,6 +102,7 @@ class Player extends Objeto {
     const bordes = this.ajustarPorBordes();
     fuerzas.x += bordes.x;
     fuerzas.y += bordes.y;
+
     this.fuerzas = fuerzas;
     this.aplicarFuerza(fuerzas);
   }
@@ -119,7 +135,7 @@ class Player extends Objeto {
 
   atraccionAlMouse() {
     if (!this.juego.mouse) return null;
-    
+
     // Obtener la posición del mouse ajustada al contenedor del juego
     const vecMouse = new PIXI.Point(
       this.juego.mouse.x - this.juego.gameContainer.x - this.container.x,

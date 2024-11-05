@@ -24,6 +24,7 @@ class Juego {
     this.ovejas = [];
     this.balas = [];
     this.obstaculos = [];
+    this.jabones = [];
     this.decorados = []
 
     this.keyboard = {};
@@ -32,6 +33,10 @@ class Juego {
     this.ui = new UI(this);
 
     this.ponerFondo();
+
+    this.ponerJabones(20);
+    this.ponerPiedras(20);
+
     this.ponerProtagonista();
 
     this.ponerNPCs();
@@ -41,7 +46,7 @@ class Juego {
     this.ponerOvejas(170, 0x0000FF); //500 azul
     // 0xFFFFFF es transparente.
 
-    this.ponerPiedras(20);
+    
 
     //this.ponerPastos(1000);
     this.ponerListeners();
@@ -117,6 +122,18 @@ class Juego {
     for (let i = 0; i < cant; i++) {
       this.obstaculos.push(
         new Piedra(
+          Math.random() * this.canvasWidth,
+          Math.random() * this.canvasHeight,
+          this
+        )
+      );
+    }
+  }
+
+  ponerJabones(cant) {
+    for (let i = 0; i < cant; i++) {
+      this.jabones.push(
+        new Jabon(
           Math.random() * this.canvasWidth,
           Math.random() * this.canvasHeight,
           this
@@ -234,23 +251,45 @@ class Juego {
 
     // Aplicar Lerp para suavizar el movimiento de la cámara
     // ARREGLA LA CAMARA PERO SE ROMPE el movimiento del pj*
-    
+    /*
     this.gameContainer.x += (clampedX - this.gameContainer.x) * lerpFactor;
     this.gameContainer.y += (clampedY - this.gameContainer.y) * lerpFactor;
-    
-    /*
+    */
+
     this.gameContainer.x = lerp(
-      this.app.stage.position.x,
+      this.gameContainer.x,
       clampedX,
       lerpFactor
     );
     this.gameContainer.y = lerp(
-      this.app.stage.position.y,
+      this.gameContainer.y,
       clampedY,
       lerpFactor
-    ); */
+    );
   }
 
+  StartEndScreen() {
+    this.app.destroy(true);
+    // Creamos la app de creditos.
+    this.app = new PIXI.Application({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      backgroundColor: 0x1099bb
+    });
+    document.body.appendChild(this.app.view);
+
+    // Cargar la imagen de fondo
+    PIXI.Loader.shared
+      .add('fondoEndScreen', 'endscreen.png')
+      .load((loader, resources) => {
+        // Crear sprites para cada imagen cargada
+        const fondo = new PIXI.Sprite(resources.fondoEndScreen.texture);
+        fondo.width = this.app.screen.width;
+        fondo.height = this.app.screen.height;
+        // Añadir los sprites al escenario
+        this.app.stage.addChild(fondo);
+      });
+  }
 }
 
 function StartGame() {
