@@ -43,7 +43,7 @@ class UI {
         if(this.stop) {return;} // Si se termino salimos
 
         // Terminar juego
-        if(this.timer == 58)
+        if(this.timer == 0)
         {
             this.ejecutarAlgo();
             this.stop = true

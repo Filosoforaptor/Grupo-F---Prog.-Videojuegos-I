@@ -6,6 +6,12 @@ class Player extends Objeto {
     this.grid = juego.grid;
     this.contadorColisiones = 0;
     this.targetTint = 0x00FF00;
+    // Para maquina de estados que maneja power ups
+    this.estados = { NORMAL: 0, JABONOSO: 1};
+    this.estado = this.estados.NORMAL;
+    this.duracionPowerUp = 60;//  EN FRAMES
+    this.potenciaPowerUp = 8; // 5 es el normal. RECOMIENDO 8 o 10.
+    this.timer = this.duracionPowerUp;
 
     this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
       this.listo = true;
@@ -25,6 +31,7 @@ class Player extends Objeto {
       this.detectarColisiones();
       this.detectarColisionesJabones();
     }
+    this.hacerCosasSegunEstado();
     this.calcularYAplicarFuerzas();
     super.update();
   }
@@ -56,17 +63,38 @@ class Player extends Objeto {
 
   detectarColisionesJabones() {
     this.juego.jabones.forEach(jabon => {
-      if (colisiona(this.spritesAnimados[this.spriteActual], jabon.sprite)) {
+      if (colisiona(this.spritesAnimados[this.spriteActual], jabon.sprite) && this.estado == this.estados.NORMAL) {
         console.log("Colisión detectada con un jabón!");
 
         // Manejar la colisión // Por ahora no hace nada
-        this.velocidad.x *= jabon.speedUpValue;
-        this.velocidad.y *= jabon.speedUpValue;
+        this.estado = this.estados.JABONOSO;
+        //this.velocidad.x *= jabon.speedUpValue;
+        //this.velocidad.y *= jabon.speedUpValue;
         //super.update(); Causa que se teletransporte xq no aplica las fuerzas.
         // Si las aplico , tengo drama xq la velocidad max me limita el movimiento..
         return;
       }
     });
+  }
+
+  hacerCosasSegunEstado()
+  {
+    // SI EL PLAYER TOCO UN JABON
+    if (this.estado == this.estados.JABONOSO)
+      {
+        this.velocidadMax = this.potenciaPowerUp;
+        this.timer --;
+        // Si se acaba el timer, cambiamos el estado a NORMAL.
+        if(this.timer == 0)
+        {
+          this.timer = this.duracionPowerUp;
+          this.estado = this.estados.NORMAL;
+          this.velocidadMax = 5;
+          console.log("Se acabo power up!");
+          return;
+        }
+      }
+    // ACA PODRIAN IR MAS POSIBLES ESTADOS QUE NO TENEMOS
   }
 
   manejarSprites() {
