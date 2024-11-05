@@ -11,13 +11,20 @@ class Juego {
       backgroundColor: 0x1099bb,
     });
     document.body.appendChild(this.app.view);
+
+    // Creo los contenedores.
+    this.gameContainer = new PIXI.Container();
+    this.uiContainer = new PIXI.Container();
+    this.app.stage.addChild(this.gameContainer);
+    this.app.stage.addChild(this.uiContainer);
+
     this.gridActualizacionIntervalo = 10; // Cada 10 frames
     this.contadorDeFrames = 0;
     this.grid = new Grid(50, this); // Tamaño de celda 50
     this.ovejas = [];
     this.balas = [];
     this.obstaculos = [];
-    this.decorados=[]
+    this.decorados = []
 
     this.keyboard = {};
 
@@ -26,7 +33,7 @@ class Juego {
 
     this.ponerFondo();
     this.ponerProtagonista();
-    
+
     this.ponerNPCs();
 
     this.ponerOvejas(165, 0xFF0000); //500 rojo
@@ -49,13 +56,13 @@ class Juego {
     }, 100);
   }
 
-  hacerCosasParaQSeVeaPixelado(){
+  hacerCosasParaQSeVeaPixelado() {
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
     this.app.view.style.imageRendering = 'pixelated';
     PIXI.settings.ROUND_PIXELS = true;
   }
 
-  ponerPastos(cant){
+  ponerPastos(cant) {
     for (let i = 0; i < cant; i++) {
       this.decorados.push(
         new Pasto(
@@ -72,9 +79,11 @@ class Juego {
     PIXI.Texture.fromURL("./img/bg2.png").then((patternTexture) => {
       // Crear un sprite con la textura del patrón
       this.backgroundSprite = new PIXI.TilingSprite(patternTexture, 5000, 5000);
+      //this.backgroundSprite.zIndex = -500000;
 
       // Añadir el sprite al stage
-      this.app.stage.addChild(this.backgroundSprite);
+      //this.backgroundSprite.zIndex = -50;
+      this.gameContainer.addChildAt(this.backgroundSprite, 0);
     });
   }
 
@@ -134,7 +143,7 @@ class Juego {
     }
   }
 
-  mouseDownEvent() {}
+  mouseDownEvent() { }
 
   ponerListeners() {
     // Manejar eventos del mouse
@@ -182,7 +191,7 @@ class Juego {
     this.player.update();
     this.npc1.update();
     this.npc2.update();
-    
+
 
     // AGREGAR UPDATE NPCS !!
 
@@ -224,16 +233,22 @@ class Juego {
     );
 
     // Aplicar Lerp para suavizar el movimiento de la cámara
-    this.app.stage.position.x = lerp(
+    // ARREGLA LA CAMARA PERO SE ROMPE el movimiento del pj*
+    
+    this.gameContainer.x += (clampedX - this.gameContainer.x) * lerpFactor;
+    this.gameContainer.y += (clampedY - this.gameContainer.y) * lerpFactor;
+    
+    /*
+    this.gameContainer.x = lerp(
       this.app.stage.position.x,
       clampedX,
       lerpFactor
     );
-    this.app.stage.position.y = lerp(
+    this.gameContainer.y = lerp(
       this.app.stage.position.y,
       clampedY,
       lerpFactor
-    );
+    ); */
   }
 
 }
@@ -241,3 +256,7 @@ class Juego {
 function StartGame() {
   return new Juego();
 }
+
+
+// https://github.com/brotochola/clases_hurlingham/tree/main/clase6
+// https://github.com/brotochola/clases_hurlingham/tree/main/clase5

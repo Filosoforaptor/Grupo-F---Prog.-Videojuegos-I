@@ -39,7 +39,7 @@ class Player extends Objeto {
       //console.log(enemigo);
       //console.log("Clase de la colision: " + enemigo.constructor.name);
       if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
-        let id = this.juego.app.stage.getChildIndex(enemigo.container);
+        let id = this.juego.gameContainer.getChildIndex(enemigo.container);
         // Sumamos 1 al Score
         this.contadorColisiones++;
         // Eliminamos el container
@@ -119,9 +119,11 @@ class Player extends Objeto {
 
   atraccionAlMouse() {
     if (!this.juego.mouse) return null;
+    
+    // Obtener la posición del mouse ajustada al contenedor del juego
     const vecMouse = new PIXI.Point(
-      this.juego.mouse.x - this.juego.app.stage.x - this.container.x,
-      this.juego.mouse.y - this.juego.app.stage.y - this.container.y
+      this.juego.mouse.x - this.juego.gameContainer.x - this.container.x,
+      this.juego.mouse.y - this.juego.gameContainer.y - this.container.y
     );
 
     let distCuadrada = vecMouse.x ** 2 + vecMouse.y ** 2;

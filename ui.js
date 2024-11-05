@@ -5,7 +5,7 @@ class UI {
         this.container.visible = true;
         this.container.zIndex = 9000000; // Es Ui , tiene el index mas grande.
 
-        this.juego.app.stage.addChild(this.container);
+        this.juego.uiContainer.addChild(this.container);
 
         this.clockStart = new Date().getTime();
         this.timer = 60;

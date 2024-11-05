@@ -106,7 +106,7 @@ class Linea {
   constructor(juego, color, origen) {
     this.juego = juego;
     this.myGraph = new PIXI.Graphics();
-    this.juego.app.stage.addChild(this.myGraph);
+    this.juego.gameContainer.addChild(this.myGraph);
     this.color = color;
     this.origen = origen;
   }
@@ -126,7 +126,7 @@ class Linea {
     this.myGraph.moveTo(this.origen.x, this.origen.y);
     this.myGraph.lineTo(targetX, targetY);
     // Add the graphics
-    this.juego.app.stage.addChild(this.myGraph);
+    this.juego.gameContainer.addChild(this.myGraph);
   }
 }
 

@@ -6,7 +6,7 @@ class Objeto {
     this.app = juego.app;
     this.juego = juego;
     this.container = new PIXI.Container();
-    this.juego.app.stage.addChild(this.container);
+    this.juego.gameContainer.addChild(this.container);
     this.listo = false;
     this.container.x = x;
     this.container.y = y;

@@ -142,7 +142,7 @@ class Npc extends Objeto {
 
       let enemigo = vecinos[i];
       if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
-        let id = this.juego.app.stage.getChildIndex(enemigo.container);
+        let id = this.juego.gameContainer.getChildIndex(enemigo.container);
         // Sumamos 1 al Score
         this.contadorColisiones++;
         // Eliminamos el container
