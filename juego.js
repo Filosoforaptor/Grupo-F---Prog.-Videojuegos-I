@@ -22,6 +22,7 @@ class Juego {
     this.keyboard = {};
 
     this.app.stage.sortableChildren = true;
+    this.ui = new UI(this);
 
     this.ponerFondo();
     this.ponerProtagonista();
@@ -65,6 +66,7 @@ class Juego {
       );
     }
   }
+
   ponerFondo() {
     // Crear un patrón a partir de una imagen
     PIXI.Texture.fromURL("./img/bg2.png").then((patternTexture) => {
@@ -75,6 +77,7 @@ class Juego {
       this.app.stage.addChild(this.backgroundSprite);
     });
   }
+
   ponerProtagonista() {
     this.player = new Player(
       window.innerWidth / 2,
@@ -130,6 +133,7 @@ class Juego {
       this.grid.add(oveja);
     }
   }
+
   mouseDownEvent() {}
 
   ponerListeners() {
@@ -174,6 +178,7 @@ class Juego {
     if (this.pausa) return;
     this.contadorDeFrames++;
 
+    this.ui.update();
     this.player.update();
     this.npc1.update();
     this.npc2.update();
@@ -230,6 +235,7 @@ class Juego {
       lerpFactor
     );
   }
+
 }
 
 function StartGame() {

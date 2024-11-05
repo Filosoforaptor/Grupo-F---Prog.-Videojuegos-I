@@ -115,9 +115,9 @@ class Npc extends Objeto {
       }
     });
     //(currentTarget);
-    if(currentTarget != undefined) {
-        this.linea.drawLineToTarget(currentTarget.container.x, currentTarget.container.y);
-    } 
+    if (currentTarget != undefined) {
+      this.linea.drawLineToTarget(currentTarget.container.x, currentTarget.container.y);
+    }
     return currentTarget;
   }
 
@@ -134,27 +134,28 @@ class Npc extends Objeto {
   }
 
   // Función para detectar colisiones
- detectarColisiones() {
-  let vecinos = this.obtenerVecinos(this.targetTint, 3)
-  for (let i = vecinos.length - 1; i >= 0; i--) {
+  detectarColisiones() {
+    let vecinos = this.obtenerVecinos(this.targetTint, 3)
+    for (let i = vecinos.length - 1; i >= 0; i--) {
+      // Ignoramos too lo que no sea oveja.
+      if (!(vecinos[i] instanceof Oveja)) { continue; };
+
       let enemigo = vecinos[i];
-      //console.log(this.vecinos);
-      //console.log(this.vecinos[i]);
       if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
         let id = this.juego.app.stage.getChildIndex(enemigo.container);
         // Sumamos 1 al Score
-          this.contadorColisiones++;
+        this.contadorColisiones++;
         // Eliminamos el container
         eliminarContainerYHijos(enemigo.container, this.juego);
         // Eliminamos de la grid para el tracking al enemigo.
-          this.juego.grid.remove(enemigo);
+        this.juego.grid.remove(enemigo);
         // Eliminamos de la lista de burbujas.
-          this.juego.ovejas.splice(this.juego.ovejas.indexOf(enemigo), 1);
-          //vecinos.splice(i, 1);
-          console.log('Colisiones:' + this.id + " " +  this.contadorColisiones);
+        this.juego.ovejas.splice(this.juego.ovejas.indexOf(enemigo), 1);
+        //vecinos.splice(i, 1);
+        //console.log('Colisiones:' + this.id + " " + this.contadorColisiones);
       }
+    }
   }
-}
 
   manejarSprites() {
     if (Math.abs(this.velocidad.x) < 0.3 && Math.abs(this.velocidad.y) < 0.3) {
@@ -177,7 +178,7 @@ class Npc extends Objeto {
     const vecAtraccionMouse = this.atraccionATarget();
     //console.log("Vector atraccion burbuja"); //
     //console.log(vecAtraccionMouse); //
-    
+
     if (vecAtraccionMouse) {
       fuerzas.x += vecAtraccionMouse.x;
       fuerzas.y += vecAtraccionMouse.y;
@@ -224,7 +225,7 @@ class Npc extends Objeto {
     }
   }
 
-  atraccionATarget() { 
+  atraccionATarget() {
     let target = this.cazarOvejaCercana()
     //console.log(" TARGET: " + target );
     if (!target) return { x: 0, y: 0 }

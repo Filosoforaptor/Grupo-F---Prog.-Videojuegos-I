@@ -48,7 +48,7 @@ PIXI.Loader.shared
             }
             // Destruimos esta app y arrancamos el juego.
             app.destroy(true);
-            app = StartGame()
+            app = StartGame();
         }
     });
 });
