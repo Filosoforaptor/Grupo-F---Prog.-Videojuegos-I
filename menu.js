@@ -66,9 +66,12 @@ videoElement.addEventListener('canplaythrough', () => {
 
                         // Función para redimensionar el canvas y los sprites
                         function resize() {
-                            app.renderer.resize(window.innerWidth, window.innerHeight);
-                            tuto.width = app.screen.width;
-                            tuto.height = app.screen.height;
+                            if(app.renderer) { // Revisamos x un bug random
+                                app.renderer.resize(window.innerWidth, window.innerHeight);
+                                tuto.width = app.screen.width;
+                                tuto.height = app.screen.height;
+                            }
+                            
                         }
 
                         // Para arreglar lo del tamaño si cambia.

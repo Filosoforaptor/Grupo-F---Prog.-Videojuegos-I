@@ -41,9 +41,10 @@ class Juego {
 
     this.ponerNPCs();
 
-    this.ponerOvejas(165, 0xFF0000); //500 rojo
+    this.ponerOvejas(165, 0xFF0000); //500 rojo  0xFF0000
     this.ponerOvejas(165, 0x00FF00); //500 verde
-    this.ponerOvejas(170, 0x0000FF); //500 azul
+    this.ponerOvejas(165, 0x0000FF); //500 azul
+
     // 0xFFFFFF es transparente.
 
     //this.ponerPastos(1000);
@@ -244,10 +245,10 @@ class Juego {
     this.decorados.forEach((decorado) => {
       decorado.update();
     });
-    
+
     this.obstaculos.forEach((piedra) => {
       piedra.update();
-    }); 
+    });
 
     this.moverCamara();
   }
@@ -334,7 +335,8 @@ class Juego {
     target.filters.push(blurFilter);
   }
 
-  StartEndScreen() {
+  StartEndScreen(winner) {
+    // Le pasamos el winner para iniciar el texto de la end screen.
     this.app.destroy(true);
     // Creamos la app de creditos.
     this.app = new PIXI.Application({
@@ -355,11 +357,22 @@ class Juego {
         // Añadir los sprites al escenario
         this.app.stage.addChild(fondo);
 
+        // Agrego texto de ganador centrado.
+        this.winnerText = new PIXI.Text(winner, { fontFamily: 'fuente', fontSize: 50, fill: 0xFF0000, padding: 20 });
+        let xPos = (this.app.screen.width - this.winnerText.width) / 2;
+        let yPos = (this.app.screen.height - this.winnerText.height) / 2;
+        this.winnerText.position.set(xPos, yPos);
+        this.app.stage.addChild(this.winnerText);
+
+
         // Función para redimensionar el canvas y los sprites
         const resizeGO = () => {
           this.app.renderer.resize(window.innerWidth, window.innerHeight);
           fondo.width = this.app.screen.width;
           fondo.height = this.app.screen.height;;
+
+          this.winnerText.x = (this.app.screen.width - this.winnerText.width) / 2;
+          this.winnerText.y = (this.app.screen.height - this.winnerText.height) / 2;
         }
 
         // Para arreglar lo del tama;o si cambia.

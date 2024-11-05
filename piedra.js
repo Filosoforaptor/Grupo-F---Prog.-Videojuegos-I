@@ -37,11 +37,15 @@ class Piedra extends Objeto {
     this.sprite.skew.x =
       Math.sin(
         this.juego.contadorDeFrames * 0.04 * this.velocidadDeMovimientoRandom
-      ) * 0.1;
+      ) * 0.1; /*
       this.sprite.skew.y =
       Math.cos(
         this.juego.contadorDeFrames * 0.04 * this.velocidadDeMovimientoRandom
-      ) * 0.1;
+      ) * 0.1;*/
+        const now = Date.now();
+        const speed = 0.001; // OJO CON TOCAR ESTAS VARIABLES e.e ES SUPER DIFICIL DE AFINAR e.e 
+        const amplitud = 0.1;
+      this.sprite.y += Math.sin(now * speed) * amplitud; 
     super.update();
   }
 
