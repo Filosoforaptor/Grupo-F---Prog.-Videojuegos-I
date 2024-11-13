@@ -13,6 +13,15 @@ class Player extends Objeto {
     this.potenciaPowerUp = 8; // 5 es el normal. RECOMIENDO 8 o 10.
     this.timer = this.duracionPowerUp;
     this.container.zIndex = 10;
+    this.jabonesRecogidos = 0; // Variable para almacenar la cantidad de jabones recogidos
+
+    // Evento para detectar el clic del mouse
+   window.addEventListener('click', (event) => {
+    if (event.button === 0) { // Botón izquierdo del mouse
+    this.useJabon();
+      }
+    });
+    
 
     this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
       this.listo = true;
@@ -61,19 +70,24 @@ class Player extends Objeto {
       }
     }
   }
-
+  // Método para usar el jabón
+  useJabon() {
+    if (this.jabonesRecogidos > 0) {
+      this.jabonesRecogidos -= 1;
+      this.estado = this.estados.JABONOSO;
+      this.timer = this.duracionPowerUp;
+      console.log("Usaste un jabón! Jabones restantes: " + this.jabonesRecogidos);
+    }
+  }
   detectarColisionesJabones() {
     this.juego.jabones.forEach(jabon => {
       if (colisiona(this.spritesAnimados[this.spriteActual], jabon.sprite) && this.estado == this.estados.NORMAL) {
         console.log("Colisión detectada con un jabón!");
 
-        // Manejar la colisión // Por ahora no hace nada
-        this.estado = this.estados.JABONOSO;
-        //this.velocidad.x *= jabon.speedUpValue;
-        //this.velocidad.y *= jabon.speedUpValue;
-        //super.update(); Causa que se teletransporte xq no aplica las fuerzas.
-        // Si las aplico , tengo drama xq la velocidad max me limita el movimiento..
-        return;
+        // Manejar la colisión
+        this.jabonesRecogidos += 1;
+        this.juego.removeJabon(jabon);
+        console.log("Jabones recogidos: " + this.jabonesRecogidos);
       }
     });
   }

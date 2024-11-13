@@ -165,6 +165,13 @@ class Juego {
     }
   }
 
+  removeJabon(jabon) {
+    const index = this.jabones.indexOf(jabon);
+    if (index > -1) {
+      this.jabones.splice(index, 1);
+    }
+  }
+
   ponerBurbujas(cant, tint) {
     // Crear algunos burbujas
     for (let i = 0; i < cant; i++) {
@@ -224,34 +231,40 @@ class Juego {
   }
 
   actualizar() {
+    // Lógica de actualización del juego
     if (this.pausa) return;
-    this.contadorDeFrames++;
+  this.contadorDeFrames++;
 
-    this.ui.update();
-    this.player.update();
-    this.npc1.update();
-    this.npc2.update();
+  // Lógica de actualización del juego
+  this.jabones.forEach(jabon => {
+    if (jabon.checkCollision(this.player)) {
+      jabon.onCollision(this.player);
+    }
+  });
 
+  // Otras actualizaciones del juego
+  this.ui.update();
+  this.player.update();
+  this.npc1.update();
+  this.npc2.update();
 
-    // AGREGAR UPDATE NPCS !!
+  this.burbujas.forEach((burbuja) => {
+    burbuja.update();
+  });
+  this.balas.forEach((bala) => {
+    bala.update();
+  });
 
-    this.burbujas.forEach((burbuja) => {
-      burbuja.update();
-    });
-    this.balas.forEach((bala) => {
-      bala.update();
-    });
+  this.decorados.forEach((decorado) => {
+    decorado.update();
+  });
 
-    this.decorados.forEach((decorado) => {
-      decorado.update();
-    });
+  this.obstaculos.forEach((juguete) => {
+    juguete.update();
+  });
 
-    this.obstaculos.forEach((juguete) => {
-      juguete.update();
-    });
-
-    this.moverCamara();
-  }
+  this.moverCamara();
+}
 
   moverCamara() {
     let lerpFactor = 0.05;
