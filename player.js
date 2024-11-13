@@ -41,8 +41,8 @@ class Player extends Objeto {
   detectarColisiones() {
     let vecinos = this.obtenerVecinos(this.targetTint, 3)
     for (let i = vecinos.length - 1; i >= 0; i--) {
-      // Ignoramos too lo que no sea oveja.
-      if (!(vecinos[i] instanceof Oveja)) { continue; };
+      // Ignoramos too lo que no sea burbuja.
+      if (!(vecinos[i] instanceof Burbuja)) { continue; };
 
       let enemigo = vecinos[i];
       //console.log(enemigo);
@@ -55,7 +55,7 @@ class Player extends Objeto {
         // Eliminamos de la grid para el tracking al enemigo.
         this.juego.grid.remove(enemigo);
         // Eliminamos de la lista de burbujas.
-        this.juego.ovejas.splice(this.juego.ovejas.indexOf(enemigo), 1);
+        this.juego.burbujas.splice(this.juego.burbujas.indexOf(enemigo), 1);
         //vecinos.splice(i, 1);
         //console.log('Colisiones Player: ' + this.contadorColisiones);
       }

@@ -181,7 +181,7 @@ class Objeto {
     });
   }
 
-  borrar() {
+  /*borrar() {
     this.juego.app.stage.removeChild(this.container);
     if (this instanceof Oveja) {
       this.juego.zombies = this.juego.zombies.filter((k) => k != this);
@@ -190,7 +190,7 @@ class Objeto {
     }
 
     this.grid.remove(this);
-  }
+  }*/
 
   obtenerVecinos(tint, margen = 1) {
     let vecinos = [];
@@ -297,7 +297,7 @@ class Objeto {
     const vecFuerza = new PIXI.Point(0, 0);
     let cant = 0;
     vecinos.forEach((obstaculo) => {
-      if (obstaculo instanceof Piedra) {
+      if (obstaculo instanceof Juguete) {
         const distCuadrada = distanciaAlCuadrado(
           this.container.x,
           this.container.y,
@@ -347,7 +347,7 @@ class Objeto {
       this.container.scale.x = 1;
     } else if (this.velocidad.x < 0) {
       this.container.scale.x = -1;
-    } else if (this.velocidad.y == 0 && this instanceof Oveja) {
+    } else if (this.velocidad.y == 0 && this instanceof Burbuja) {
       if (this.juego.player.container.x > this.container.x) {
         this.container.scale.x = 1;
       } else {

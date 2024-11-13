@@ -21,7 +21,7 @@ class Juego {
     this.gridActualizacionIntervalo = 10; // Cada 10 frames
     this.contadorDeFrames = 0;
     this.grid = new Grid(50, this); // Tamaño de celda 50
-    this.ovejas = [];
+    this.burbujas = [];
     this.balas = [];
     this.obstaculos = [];
     this.jabones = [];
@@ -36,14 +36,14 @@ class Juego {
 
     this.ponerJabones(20);
     this.ponerProtagonista();
-    this.ponerPiedras(20);
+    this.ponerJuguetes(20);
 
 
     this.ponerNPCs();
 
-    this.ponerOvejas(165, 0xFF0000); //500 rojo  0xFF0000
-    this.ponerOvejas(165, 0x00FF00); //500 verde
-    this.ponerOvejas(165, 0x0000FF); //500 azul
+    this.ponerBurbujas(165, 0xFF0000); //500 rojo  0xFF0000
+    this.ponerBurbujas(165, 0x00FF00); //500 verde
+    this.ponerBurbujas(165, 0x0000FF); //500 azul
 
     // 0xFFFFFF es transparente.
 
@@ -141,10 +141,10 @@ class Juego {
     );
   }
 
-  ponerPiedras(cant) {
+  ponerJuguetes(cant) {
     for (let i = 0; i < cant; i++) {
       this.obstaculos.push(
-        new Piedra(
+        new Juguete(
           Math.random() * this.canvasWidth,
           Math.random() * this.canvasHeight,
           this
@@ -165,21 +165,21 @@ class Juego {
     }
   }
 
-  ponerOvejas(cant, tint) {
-    // Crear algunos ovejas
+  ponerBurbujas(cant, tint) {
+    // Crear algunos burbujas
     for (let i = 0; i < cant; i++) {
-      //LA VELOCIDAD SE USA PARA LA VELOCIDAD MAXIMA CON LA Q SE MUEVE EL ZOMBIE
+      //LA VELOCIDAD SE USA PARA LA VELOCIDAD MAXIMA CON LA Q SE MUEVE LA BURBUJA
       //Y TAMBIEN PARA LA VELOCIDAD DE REPRODUCCION DE UN SPRITE
       let velocidad = Math.random() * 1.3 + 1.5;
-      const oveja = new Oveja(
+      const burbuja = new Burbuja(
         Math.random() * this.canvasWidth,
         Math.random() * this.canvasHeight,
         velocidad,
         tint,
         this
-      ); // Pasar la grid a los ovejas
-      this.ovejas.push(oveja);
-      this.grid.add(oveja);
+      ); // Pasar la grid a los burbujas
+      this.burbujas.push(burbuja);
+      this.grid.add(burbuja);
     }
   }
 
@@ -235,8 +235,8 @@ class Juego {
 
     // AGREGAR UPDATE NPCS !!
 
-    this.ovejas.forEach((oveja) => {
-      oveja.update();
+    this.burbujas.forEach((burbuja) => {
+      burbuja.update();
     });
     this.balas.forEach((bala) => {
       bala.update();
@@ -246,8 +246,8 @@ class Juego {
       decorado.update();
     });
 
-    this.obstaculos.forEach((piedra) => {
-      piedra.update();
+    this.obstaculos.forEach((juguete) => {
+      juguete.update();
     });
 
     this.moverCamara();
@@ -335,6 +335,7 @@ class Juego {
     target.filters.push(blurFilter);
   }
 
+  // CODIGO GAME OVER
   StartEndScreen(winner) {
     // Le pasamos el winner para iniciar el texto de la end screen.
     this.app.destroy(true);
@@ -346,38 +347,68 @@ class Juego {
     });
     document.body.appendChild(this.app.view);
 
-    // Cargar la imagen de fondo
-    PIXI.Loader.shared
-      .add('fondoEndScreen', 'endscreen.png')
-      .load((loader, resources) => {
-        // Crear sprites para cada imagen cargada
-        const fondo = new PIXI.Sprite(resources.fondoEndScreen.texture);
-        fondo.width = this.app.screen.width;
-        fondo.height = this.app.screen.height;
-        // Añadir los sprites al escenario
-        this.app.stage.addChild(fondo);
+    // Crear el elemento de video
+    let videoElement = document.createElement('video');
+    videoElement.src = './video/patitos.mp4';
+    videoElement.loop = true;
+    videoElement.muted = true;
 
-        // Agrego texto de ganador centrado.
-        this.winnerText = new PIXI.Text(winner, { fontFamily: 'fuente', fontSize: 50, fill: 0xFF0000, padding: 20 });
-        let xPos = (this.app.screen.width - this.winnerText.width) / 2;
-        let yPos = (this.app.screen.height - this.winnerText.height) / 2;
-        this.winnerText.position.set(xPos, yPos);
-        this.app.stage.addChild(this.winnerText);
+    // Esperar a que el video esté listo para reproducirse
+    videoElement.addEventListener('canplaythrough', () => {
+      videoElement.play();
 
+      // Crear la textura del video
+      let videoTexture = PIXI.Texture.from(videoElement);
 
-        // Función para redimensionar el canvas y los sprites
-        const resizeGO = () => {
-          this.app.renderer.resize(window.innerWidth, window.innerHeight);
-          fondo.width = this.app.screen.width;
-          fondo.height = this.app.screen.height;;
+      // Crear el sprite del video
+      let videoSprite = new PIXI.Sprite(videoTexture);
+      videoSprite.width = this.app.screen.width;
+      videoSprite.height = this.app.screen.height;
 
-          this.winnerText.x = (this.app.screen.width - this.winnerText.width) / 2;
-          this.winnerText.y = (this.app.screen.height - this.winnerText.height) / 2;
-        }
+      // Añadir el sprite del video al escenario
+      this.app.stage.addChild(videoSprite);
 
-        // Para arreglar lo del tama;o si cambia.
-        window.addEventListener("resize", resizeGO);
-      });
+      // Creo la imagen del jabon UI
+      // Me fijo que jabon elegir segun el ganador.
+      let url = "";
+      switch(winner)
+      {
+        case "2":
+          url += "jabonA.png";
+          break;
+        case "1":
+          url += "jabonB.png";
+          break;
+        case "P":
+          url += "jabonD.png";
+          break;
+        default:
+          console.log("ERROR WINNER IS INVALID: ", winner);
+          url += "jabonUI1.png";
+          break;
+      }
+      this.jabonUI = PIXI.Sprite.from('./img/' + url);
+      this.jabonUI.anchor.set(0.5); 
+      let xUIJabon = (this.app.screen.width / 2 );
+      let yUIJabon = (this.app.screen.height / 2);
+      this.jabonUI.position.set(xUIJabon, yUIJabon);
+      this.app.stage.addChild(this.jabonUI);
+
+      const escala = 0.5;
+      this.jabonUI.scale.set(escala); // ESCALA DEL TAMA:O DE LA IMAGEN DEL JABON . MAX 1 - 100%.
+
+      // Función para redimensionar el canvas y los sprites
+      const resizeGO = () => {
+        this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        videoSprite.width = this.app.screen.width;
+        videoSprite.height = this.app.screen.height;;
+
+        this.jabonUI.position.set((this.app.screen.width / 2 ) , (this.app.screen.height / 2) ); 
+      }
+
+      // Para arreglar lo del tama;o si cambia.
+      window.addEventListener("resize", resizeGO);
+    });
   }
 }
 

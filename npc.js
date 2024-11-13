@@ -90,27 +90,27 @@ class Npc extends Objeto {
       });
   }
 
-  cazarOvejaCercana() {
-    let vecinos = this.obtenerVecinos(this.targetTint, 8) // Buscamos las ovejas para cazar
+  cazarBurbujaCercana() {
+    let vecinos = this.obtenerVecinos(this.targetTint, 8) // Buscamos las burbujas para cazar
     //console.log(vecinos);
     let targetDist = 99999;
     let currentTarget;
 
-    function calcularDistancia(xLobo, yLobo, xOveja, yOveja) {
-      //console.log(xLobo, yLobo, xOveja, yOveja)
-      const dx = xOveja - xLobo;
-      const dy = yOveja - yLobo;
+    function calcularDistancia(xPlayer, yPlayer, xBurbuja, yBurbuja) {
+      //console.log(xPlayer, yPlayer, xBurbuja, yBurbuja)
+      const dx = xBurbuja - xPlayer;
+      const dy = yBurbuja - yPlayer;
       return Math.sqrt(dx * dx + dy * dy);
     }
 
-    vecinos.forEach((oveja) => {
-      if (oveja instanceof Oveja) {
+    vecinos.forEach((burbuja) => {
+      if (burbuja instanceof Burbuja) {
         // Medimos la distancia
-        //console.log(oveja); // Mirar array de children del objeto antes de que se rompe.
-        let newDist = calcularDistancia(this.container.x, this.container.y, oveja.container.x, oveja.container.y)
+        //console.log(burbuja); // Mirar array de children del objeto antes de que se rompe.
+        let newDist = calcularDistancia(this.container.x, this.container.y, burbuja.container.x, burbuja.container.y)
         if (newDist < targetDist) {
           targetDist = newDist;
-          currentTarget = oveja;
+          currentTarget = burbuja;
         }
       }
     });
@@ -137,8 +137,8 @@ class Npc extends Objeto {
   detectarColisiones() {
     let vecinos = this.obtenerVecinos(this.targetTint, 3)
     for (let i = vecinos.length - 1; i >= 0; i--) {
-      // Ignoramos too lo que no sea oveja.
-      if (!(vecinos[i] instanceof Oveja)) { continue; };
+      // Ignoramos too lo que no sea burbuja.
+      if (!(vecinos[i] instanceof Burbuja)) { continue; };
 
       let enemigo = vecinos[i];
       if (colisiona(this.spritesAnimados[this.spriteActual], enemigo.spritesAnimados[enemigo.spriteActual])) {
@@ -150,7 +150,7 @@ class Npc extends Objeto {
         // Eliminamos de la grid para el tracking al enemigo.
         this.juego.grid.remove(enemigo);
         // Eliminamos de la lista de burbujas.
-        this.juego.ovejas.splice(this.juego.ovejas.indexOf(enemigo), 1);
+        this.juego.burbujas.splice(this.juego.burbujas.indexOf(enemigo), 1);
         //vecinos.splice(i, 1);
         //console.log('Colisiones:' + this.id + " " + this.contadorColisiones);
       }
@@ -226,7 +226,7 @@ class Npc extends Objeto {
   }
 
   atraccionATarget() {
-    let target = this.cazarOvejaCercana()
+    let target = this.cazarBurbujaCercana()
     //console.log(" TARGET: " + target );
     if (!target) return { x: 0, y: 0 }
 
