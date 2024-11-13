@@ -119,14 +119,16 @@ class Juego {
       window.innerHeight * 0.5,
       5,
       0x0000FF,
-      this
+      this,
+      "./img/npc/npc1.png" // Ruta del sprite para npc1
     );
     this.npc2 = new Npc(
       window.innerWidth / 1.5,
       window.innerHeight * 0.5,
       5,
       0xFF0000,
-      this
+      this,
+      "./img/npc/npc2.png" // Ruta del sprite para npc2
     );
   }
 

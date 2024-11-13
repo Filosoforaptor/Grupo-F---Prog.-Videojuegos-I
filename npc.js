@@ -1,5 +1,5 @@
 class Npc extends Objeto {
-  constructor(x, y, velMax, targetTint, juego) {
+  constructor(x, y, velMax, targetTint, juego, spriteFile) {
     super(x, y, velMax, juego);
     this.velocidadMax = velMax;
     this.juego = juego;
@@ -11,69 +11,69 @@ class Npc extends Objeto {
 
     this.cargarVariosSpritesAnimadosDeUnSoloArchivo(
       {
-        archivo: "./img/npc/npc.png",
-        frameWidth: 32,
-        frameHeight: 32,
+        archivo: spriteFile, // Usar el parámetro spriteFile
+        frameWidth: 130,
+        frameHeight: 130,
         velocidad: velMax * 0.1,
         animaciones: {
           correrLado: { //
             desde: {
-              x: 0,
-              y: 3,
+              x:22,
+              y: 0,
             },
             hasta: {
-              x: 2,
-              y: 3,
+              x: 27,
+              y: 0,
             },
           },
           idle: { //
             desde: {
-              x: 3,
-              y: 5,
+              x: 6,
+              y: 0,
             },
             hasta: {
-              x: 3,
-              y: 5,
+              x: 10,
+              y: 0,
             },
           },
           correrArriba: { //
             desde: {
               x: 0,
-              y: 1,
+              y: 0,
             },
             hasta: {
-              x: 3,
-              y: 1,
+              x: 5,
+              y: 0,
             },
           },
           correrAbajo: { //
             desde: {
-              x: 0,
+              x: 11,
               y: 0,
             },
             hasta: {
-              x: 3,
+              x: 16,
               y: 0,
             },
           },
           caminarLado: { //
             desde: {
-              x: 0,
-              y: 2,
+              x: 22,
+              y: 0,
             },
             hasta: {
-              x: 3,
-              y: 2,
+              x: 27,
+              y: 0,
             },
           },
           sentandoseLado: { //
             desde: {
-              x: 0,
-              y: 5,
+              x: 17,
+              y: 0,
             },
             hasta: {
-              x: 3,
-              y: 5,
+              x: 21,
+              y: 0,
             },
           },
         },
@@ -84,7 +84,7 @@ class Npc extends Objeto {
 
         // Les cambio el tama;o para que sea mas grande.
         for (let sprite of Object.values(this.spritesAnimados)) {
-          sprite.scale.set(2);
+          sprite.scale.set(0.5);
           sprite.anchor.set(0.5, 1);
         }
       });
