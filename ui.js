@@ -19,10 +19,10 @@ class UI {
 
         // Crear los textos 
 
-        this.score1 = new PIXI.Text('Texto 1', { fontFamily: 'fuente', fontSize: 50, fill: 0xFF0000, padding: 20 }); // NPC 2
-        this.score2 = new PIXI.Text('Texto 2', { fontFamily: 'fuente', fontSize: 50, fill: 0x00FF00, padding: 20 }); //Player
-        this.score3 = new PIXI.Text('Texto 3', { fontFamily: 'fuente', fontSize: 50, fill: 0x0000FF, padding: 20 }); // NPC 1
-        this.reloj = new PIXI.Text(this.timer, { fontFamily: 'fuente', fontSize: 65, fill: 0x0F000F, padding: 20 }); // Reloj 
+        this.score1 = new PIXI.Text('Texto 1', { fontFamily: 'fuente', fontSize: 75, fill: 0xFF0000, padding: 20 }); // NPC 2
+        this.score2 = new PIXI.Text('Texto 2', { fontFamily: 'fuente', fontSize: 75, fill: 0x00FF00, padding: 20 }); //Player
+        this.score3 = new PIXI.Text('Texto 3', { fontFamily: 'fuente', fontSize: 75, fill: 0x0000FF, padding: 20 }); // NPC 1
+        this.reloj = new PIXI.Text(this.timer, { fontFamily: 'fuente', fontSize: 67, fill: 0x0F000F, padding: 20 }); // Reloj 
 
         // Ponemos las imagenes de la UI, GRACIAS NACHITOOO :3 !
         this.texto1 = PIXI.Sprite.from('./img/resaltador.png');
@@ -49,14 +49,14 @@ class UI {
         this.container.addChild(this.timer1);
 
         // Posicionar los textos
-        this.score1.position.set(50, 50);
-        this.score2.position.set(50, 145);
-        this.score3.position.set(50, 240);
+        this.score1.position.set(70, 40);
+        this.score2.position.set(70, 135);
+        this.score3.position.set(70, 230);
         //this.reloj.position.set(window.innerWidth / 1.105, 50); // 200
         this.reloj.position.set(window.innerWidth / 2 - this.reloj.width / 2, 50); // Centrar el reloj
 
         // Posicionar la imagen del fondo del reloj centrada con respecto al reloj
-        this.timer1.position.set(this.reloj.x + this.reloj.width / 2 - this.timer1.width / 2 - 80, this.reloj.y + this.reloj.height / 2 - this.timer1.height / 2 - 80);
+        this.timer1.position.set(this.reloj.x + this.reloj.width / 2 - this.timer1.width / 2 - 80, this.reloj.y + this.reloj.height / 2 - this.timer1.height / 2 - 75);
 
         // Agregar los textos al container
         this.container.addChild(this.score1);
@@ -85,13 +85,18 @@ class UI {
         window.addEventListener("resize", resizeUI);
     }
 
-    updateScores() {
-        if (this.juego.contadorDeFrames % 4 == 1) {
-            this.score1.text = this.juego.npc2.contadorColisiones;
-            this.score2.text = this.juego.player.contadorColisiones;
-            this.score3.text = this.juego.npc1.contadorColisiones;
-        }
+   // Función para formatear los números a tres dígitos
+formatNumber = function(number) {
+    return number.toString().padStart(3, '0');
+};
+
+updateScores() {
+    if (this.juego.contadorDeFrames % 4 == 1) {
+        this.score1.text = this.formatNumber(this.juego.npc2.contadorColisiones);
+        this.score2.text = this.formatNumber(this.juego.player.contadorColisiones);
+        this.score3.text = this.formatNumber(this.juego.npc1.contadorColisiones);
     }
+}
 
     updateReloj() {
         if (this.stop) { return; } // Si se termino salimos
@@ -147,7 +152,16 @@ class UI {
         // Crear un gráfico
         this.minimap = new PIXI.Graphics();
         this.imagenminimap = PIXI.Sprite.from('./img/baniera.png');
-        
+        // Hacer que el minimapa se haga invisible cuando uno pasa el mouse por encima / una nacheada
+        this.minimap.interactive = true;
+        this.minimap.on('mouseover', () => {
+        this.minimap.alpha = 0.5;
+        this.imagenminimap.alpha = 0.5;
+        });
+        this.minimap.on('mouseout', () => {
+        this.minimap.alpha = 1;
+        this.imagenminimap.alpha = 1;
+        });
         // Añadir la imagen al contenedor
         this.container.addChild(this.imagenminimap);
         
