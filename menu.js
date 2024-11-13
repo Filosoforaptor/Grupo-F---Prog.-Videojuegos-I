@@ -53,7 +53,7 @@ videoElement.addEventListener('canplaythrough', () => {
 
                 // Cargar la imagen de fondo
                 PIXI.Loader.shared
-                    .add('tuto', 'fondo1.png')
+                    .add('tuto', './img/fondo1.png')
                     .load((loader, resources) => {
                         // Crear sprite para la imagen cargada
                         const tuto = new PIXI.Sprite(resources.tuto.texture);

@@ -107,6 +107,11 @@ function eliminarContainerYHijos(container, juego) {
   //debugger;
 }
 
+// Función para formatear los números a tres dígitos
+function formatNumber(number) {
+    return number.toString().padStart(3, '0');
+};
+
 class Linea {
   constructor(juego, color, origen) {
     this.juego = juego;

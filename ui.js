@@ -28,12 +28,12 @@ class UI {
         this.texto1 = PIXI.Sprite.from('./img/resaltador.png');
         this.texto2 = PIXI.Sprite.from('./img/resaltador.png');
         this.texto3 = PIXI.Sprite.from('./img/resaltador.png');
-        this.timer1 = PIXI.Sprite.from('./img/fondotimer.png');
+        this.fondoTimer = PIXI.Sprite.from('./img/fondotimer.png');
 
         const lengthSprite = 95;
 
         this.texto1.position.set(10, 45);
-        this.texto2.position.set(10, 45 + (lengthSprite ));
+        this.texto2.position.set(10, 45 + (lengthSprite));
         this.texto3.position.set(10, 45 + (lengthSprite * 2));
 
         this.container.addChild(this.texto1);
@@ -41,27 +41,25 @@ class UI {
         this.container.addChild(this.texto3);
 
         this.texto1.scale.set(0.9); // Para cambiar la escala de la imagen.
-        this.texto2.scale.set(0.9); 
+        this.texto2.scale.set(0.9);
         this.texto3.scale.set(0.9);
-        this.timer1.scale.set(0.6);
-
-        // Añadir la imagen del fondo del reloj al contenedor
-        this.container.addChild(this.timer1);
+        this.fondoTimer.scale.set(0.6);
 
         // Posicionar los textos
         this.score1.position.set(70, 40);
         this.score2.position.set(70, 135);
         this.score3.position.set(70, 230);
-        //this.reloj.position.set(window.innerWidth / 1.105, 50); // 200
         this.reloj.position.set(window.innerWidth / 2 - this.reloj.width / 2, 50); // Centrar el reloj
 
         // Posicionar la imagen del fondo del reloj centrada con respecto al reloj
-        this.timer1.position.set(this.reloj.x + this.reloj.width / 2 - this.timer1.width / 2 - 80, this.reloj.y + this.reloj.height / 2 - this.timer1.height / 2 - 75);
+        //this.fondoTimer.position.set(this.reloj.x + this.reloj.width / 2 - this.fondoTimer.width / 2 - 80, this.reloj.y + this.reloj.height / 2 - this.fondoTimer.height / 2 - 75);
+        this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 20);
 
         // Agregar los textos al container
         this.container.addChild(this.score1);
         this.container.addChild(this.score2);
         this.container.addChild(this.score3);
+        this.container.addChild(this.fondoTimer);
         this.container.addChild(this.reloj);
 
         // Agregamos el minimapa
@@ -71,32 +69,31 @@ class UI {
         const resizeUI = () => {
             // LINEA IMPORTANTE O NO ANDAN LOS RESIZE
             this.juego.app.renderer.resize(window.innerWidth, window.innerHeight);
-            // Cambiamos de lugar el reloj y el minimapa.
-            //this.reloj.position.set(window.innerWidth - 125, 50);
+            // Resizear el Reloj
+            this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 20);
             this.reloj.position.set(window.innerWidth / 2 - this.reloj.width / 2, 50); // Centrar el reloj
-            let xPos = this.juego.app.screen.width - this.anchoMM - this.paddingMM;
-            let yPos = this.juego.app.screen.height - this.altoMM - this.paddingMM;
+            // Cambiamos de lugar el minimapa.
+            let xPos = this.juego.app.screen.width - this.anchoMM - this.paddingMM -50;
+            let yPos = this.juego.app.screen.height - this.altoMM - this.paddingMM -30;
             this.minimap.position.set(xPos, yPos);
+            this.imagenMinimap.position.set(xPos -40, yPos - 35);
             //console.log("MINIMAPA X Y REAL: ", this.minimap.position);
-            console.log(this.minimap.position);
+            //console.log(this.minimap.position);
         }
 
         // Para arreglar lo del tama;o si cambia.
         window.addEventListener("resize", resizeUI);
     }
 
-   // Función para formatear los números a tres dígitos
-formatNumber = function(number) {
-    return number.toString().padStart(3, '0');
-};
 
-updateScores() {
-    if (this.juego.contadorDeFrames % 4 == 1) {
-        this.score1.text = this.formatNumber(this.juego.npc2.contadorColisiones);
-        this.score2.text = this.formatNumber(this.juego.player.contadorColisiones);
-        this.score3.text = this.formatNumber(this.juego.npc1.contadorColisiones);
+
+    updateScores() {
+        if (this.juego.contadorDeFrames % 4 == 1) {
+            this.score1.text = formatNumber(this.juego.npc2.contadorColisiones);
+            this.score2.text = formatNumber(this.juego.player.contadorColisiones);
+            this.score3.text = formatNumber(this.juego.npc1.contadorColisiones);
+        }
     }
-}
 
     updateReloj() {
         if (this.stop) { return; } // Si se termino salimos
@@ -151,35 +148,26 @@ updateScores() {
     ponerMinimapa() {
         // Crear un gráfico
         this.minimap = new PIXI.Graphics();
-        this.imagenminimap = PIXI.Sprite.from('./img/baniera.png');
-        // Hacer que el minimapa se haga invisible cuando uno pasa el mouse por encima / una nacheada
-        this.minimap.interactive = true;
-        this.minimap.on('mouseover', () => {
-        this.minimap.alpha = 0.5;
-        this.imagenminimap.alpha = 0.5;
-        });
-        this.minimap.on('mouseout', () => {
-        this.minimap.alpha = 1;
-        this.imagenminimap.alpha = 1;
-        });
+        this.imagenMinimap = PIXI.Sprite.from('./img/baniera.png');
+
         // Añadir la imagen al contenedor
-        this.container.addChild(this.imagenminimap);
-        
+        this.container.addChild(this.imagenMinimap);
+
         // Dibujar un rectángulo semi transparente
         const fillColor = 0x66CCFF; // Color de relleno
         const borderColor = 0xFF3300; // Color del borde
         const borderAlpha = 0; // Opacidad del borde
-        const fillAlpha = 0.2; // Opacidad del relleno (0 es completamente transparente, 1 es completamente opaco)
+        const fillAlpha = 0.1; // Opacidad del relleno (0 es completamente transparente, 1 es completamente opaco)
 
         this.minimap.beginFill(fillColor, fillAlpha);
         this.minimap.lineStyle(4, borderColor, borderAlpha);
 
-        let xPos = this.juego.app.screen.width - this.anchoMM - this.paddingMM -50;
-        let yPos = this.juego.app.screen.height - this.altoMM - this.paddingMM -30;
+        let xPos = this.juego.app.screen.width - this.anchoMM - this.paddingMM - 50;
+        let yPos = this.juego.app.screen.height - this.altoMM - this.paddingMM - 30;
+
         // Ajustar la posición de la imagen para que encaje debajo del minimapa
-        let imagenXPos = xPos - (this.imagenminimap.width - this.anchoMM) / -7;
-        let imagenYPos = yPos - (this.imagenminimap.height - this.altoMM) / -4;
-        this.imagenminimap.position.set(imagenXPos, imagenYPos);
+        this.imagenMinimap.anchor.set(0);
+        this.imagenMinimap.position.set(xPos - 40, yPos - 35);
         this.minimap.drawRect(0, 0, this.anchoMM, this.altoMM); // Pos x, y  y luego ancho y alto
         this.minimap.endFill();
 
@@ -192,6 +180,17 @@ updateScores() {
         this.ponerPlayerEnMinimapa();
         this.ponerNPCsEnMinimapa();
         this.ponerBurbujasEnMinimapa();
+
+        // Hacer que el minimapa se haga invisible cuando uno pasa el mouse por encima / una nacheada
+        this.imagenMinimap.interactive = true;
+        this.imagenMinimap.on('mouseover', () => {
+            this.minimap.alpha = 0.5;
+            this.imagenMinimap.alpha = 0.5;
+        });
+        this.imagenMinimap.on('mouseout', () => {
+            this.minimap.alpha = 1;
+            this.imagenMinimap.alpha = 1;
+        });
     }
 
     ponerPlayerEnMinimapa() {
@@ -268,6 +267,5 @@ updateScores() {
 
         this.ponerBurbujasEnMinimapa();
     }
-
 
 }

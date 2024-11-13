@@ -16,9 +16,7 @@ class Juguete extends Objeto {
 
       //   let height = texture.baseTexture.height;
       this.sprite = new PIXI.Sprite(texture);
-
-      // this.sprite.width=700
-      // this.sprite.height=310
+      
       //GUARDO EL RADIO DEL OBSTACULO PORQ LO USO PARA DETECTAR COLISIONES CON LOS PERSONAJES
       this.radio = this.sprite.width * 0.5;
       // this.radio=this.juego.grid.cellSize*0.5

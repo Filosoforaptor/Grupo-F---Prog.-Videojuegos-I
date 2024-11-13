@@ -13,15 +13,16 @@ class Player extends Objeto {
     this.potenciaPowerUp = 8; // 5 es el normal. RECOMIENDO 8 o 10.
     this.timer = this.duracionPowerUp;
     this.container.zIndex = 10;
-    this.jabonesRecogidos = 0; // Variable para almacenar la cantidad de jabones recogidos
+
+    // Variable para almacenar la cantidad de jabones recogidos
+    this.jabonesRecogidos = 0; 
 
     // Evento para detectar el clic del mouse
-   window.addEventListener('click', (event) => {
-    if (event.button === 0) { // Botón izquierdo del mouse
-    this.useJabon();
+    window.addEventListener('click', (event) => {
+      if (event.button === 0) { // Botón izquierdo del mouse
+        this.usarJabon();
       }
     });
-    
 
     this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
       this.listo = true;
@@ -70,8 +71,8 @@ class Player extends Objeto {
       }
     }
   }
-  // Método para usar el jabón
-  useJabon() {
+  // Método para usar el jabón guardado
+  usarJabon() {
     if (this.jabonesRecogidos > 0) {
       this.jabonesRecogidos -= 1;
       this.estado = this.estados.JABONOSO;
@@ -85,9 +86,7 @@ class Player extends Objeto {
         console.log("Colisión detectada con un jabón!");
 
         // Manejar la colisión
-        this.jabonesRecogidos += 1;
-        this.juego.removeJabon(jabon);
-        console.log("Jabones recogidos: " + this.jabonesRecogidos);
+        jabon.onCollision(this);
       }
     });
   }

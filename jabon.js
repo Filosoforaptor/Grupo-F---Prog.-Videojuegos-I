@@ -22,22 +22,10 @@ class Jabon extends Objeto {
     });
   }
 
-  checkCollision(player) {
-    if (!this.sprite || !player.spritesAnimados[player.spriteActual]) {
-      return false;
-    }
-
-    const boundsA = this.sprite.getBounds();
-    const boundsB = player.spritesAnimados[player.spriteActual].getBounds();
-
-    return boundsA.x < boundsB.x + boundsB.width &&
-           boundsA.x + boundsA.width > boundsB.x &&
-           boundsA.y < boundsB.y + boundsB.height &&
-           boundsA.y + boundsA.height > boundsB.y;
-  }
-
   onCollision(player) {
+    // Cuando tocamos un jabon lo agarramos y lo quitamos del piso.
     player.jabonesRecogidos += 1;
+    console.log("Se agarro un jabon: ", player.jabonesRecogidos);
     this.container.removeChild(this.sprite);
     this.juego.removeJabon(this);
   }

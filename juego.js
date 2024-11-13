@@ -1,7 +1,6 @@
 // Clase Juego
 class Juego {
   constructor() {
-    this.pausa = false;
     this.canvasWidth = window.innerWidth * 2;
     this.canvasHeight = window.innerHeight * 2;
     this.app = new PIXI.Application({
@@ -22,12 +21,9 @@ class Juego {
     this.contadorDeFrames = 0;
     this.grid = new Grid(50, this); // Tamaño de celda 50
     this.burbujas = [];
-    this.balas = [];
     this.obstaculos = [];
     this.jabones = [];
     this.decorados = [];
-
-    this.keyboard = {};
 
     this.app.stage.sortableChildren = true;
     this.ui = new UI(this);
@@ -37,7 +33,6 @@ class Juego {
     this.ponerJabones(20);
     this.ponerProtagonista();
     this.ponerJuguetes(20);
-
 
     this.ponerNPCs();
 
@@ -51,7 +46,7 @@ class Juego {
 
     // -------- FILTROS  --------  //
     //this.prenderFiltroASCII(8);
-    //this.prenderFiltroPixel(4)
+    //this.prenderFiltroPixel(4); //4
 
     this.ponerListeners();
 
@@ -63,12 +58,6 @@ class Juego {
       this.app.ticker.add(this.actualizar.bind(this));
       window.__PIXI_APP__ = this.app;
     }, 100);
-  }
-
-  hacerCosasParaQSeVeaPixelado() {
-    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-    this.app.view.style.imageRendering = 'pixelated';
-    PIXI.settings.ROUND_PIXELS = true;
   }
 
   ponerPastos(cant) {
@@ -190,32 +179,14 @@ class Juego {
     }
   }
 
-  mouseDownEvent() { }
-
   ponerListeners() {
-    // Manejar eventos del mouse
-    this.app.view.addEventListener("mousedown", () => {
-      (this.mouse || {}).click = true;
-      this.mouseDownEvent();
-    });
-    this.app.view.addEventListener("mouseup", () => {
-      (this.mouse || {}).click = false;
-    });
-
+    // Sirven para mover el perro.
     this.app.view.addEventListener("mousemove", this.onMouseMove.bind(this));
     this.app.view.addEventListener("mouseleave", () => {
       this.mouse = null;
     });
     window.addEventListener("resize", () => {
       this.app.renderer.resize(window.innerWidth, window.innerHeight);
-    });
-
-    window.addEventListener("keydown", (e) => {
-      this.keyboard[e.key.toLowerCase()] = true;
-    });
-
-    window.addEventListener("keyup", (e) => {
-      delete this.keyboard[e.key.toLowerCase()];
     });
   }
 
@@ -226,21 +197,10 @@ class Juego {
     this.mouse.x = event.clientX - rect.left;
     this.mouse.y = event.clientY - rect.top;
   }
-  pausar() {
-    this.pausa = !this.pausa;
-  }
 
   actualizar() {
-    // Lógica de actualización del juego
-    if (this.pausa) return;
-  this.contadorDeFrames++;
-
   // Lógica de actualización del juego
-  this.jabones.forEach(jabon => {
-    if (jabon.checkCollision(this.player)) {
-      jabon.onCollision(this.player);
-    }
-  });
+  this.contadorDeFrames++;
 
   // Otras actualizaciones del juego
   this.ui.update();
@@ -250,9 +210,6 @@ class Juego {
 
   this.burbujas.forEach((burbuja) => {
     burbuja.update();
-  });
-  this.balas.forEach((bala) => {
-    bala.update();
   });
 
   this.decorados.forEach((decorado) => {
@@ -289,13 +246,7 @@ class Juego {
       0
     );
 
-    // Aplicar Lerp para suavizar el movimiento de la cámara
-    // ARREGLA LA CAMARA PERO SE ROMPE el movimiento del pj*
-    /*
-    this.gameContainer.x += (clampedX - this.gameContainer.x) * lerpFactor;
-    this.gameContainer.y += (clampedY - this.gameContainer.y) * lerpFactor;
-    */
-
+    // Movemos el game container.
     this.gameContainer.x = lerp(
       this.gameContainer.x,
       clampedX,
@@ -428,7 +379,3 @@ class Juego {
 function StartGame() {
   return new Juego();
 }
-
-
-// https://github.com/brotochola/clases_hurlingham/tree/main/clase6
-// https://github.com/brotochola/clases_hurlingham/tree/main/clase5

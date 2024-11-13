@@ -181,17 +181,6 @@ class Objeto {
     });
   }
 
-  /*borrar() {
-    this.juego.app.stage.removeChild(this.container);
-    if (this instanceof Oveja) {
-      this.juego.zombies = this.juego.zombies.filter((k) => k != this);
-    } else if (this instanceof Bala) {
-      this.juego.balas = this.juego.balas.filter((k) => k != this);
-    }
-
-    this.grid.remove(this);
-  }*/
-
   obtenerVecinos(tint, margen = 1) {
     let vecinos = [];
     const cellSize = this.grid.cellSize;
@@ -217,11 +206,11 @@ class Objeto {
     return vecinos;
   }
 
-  estoyEnLaMismaCeldaQue(fulano) {
+  estoyEnLaMismaCeldaQue(target) {
     return (
-      fulano.miCeldaActual &&
+      target.miCeldaActual &&
       this.miCeldaActual &&
-      fulano.miCeldaActual == this.miCeldaActual
+      target.miCeldaActual == this.miCeldaActual
     );
   }
 
