@@ -143,9 +143,9 @@ class Juego {
         colision = false;
 
         for (let obstaculo of this.obstaculos) {
-          console.log(obstaculo);
+          //console.log(obstaculo);
           const distancia = calculoDeDistancia(obstaculo.container.x, obstaculo.container.y, x, y);
-          console.log(obstaculo.container.x, obstaculo.container.y, x, y, distancia);
+          //console.log(obstaculo.container.x, obstaculo.container.y, x, y, distancia);
 
           if (distancia < radio) {
             colision = true;
