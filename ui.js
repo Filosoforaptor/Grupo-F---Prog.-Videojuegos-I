@@ -16,29 +16,44 @@ class UI {
         this.anchoMM = 290; // 400
         this.altoMM = 180; // 300
         this.burbujas = [];
+        this.cantJabones = 0;
 
         // Crear los textos 
 
         this.score1 = new PIXI.Text('Texto 1', { fontFamily: 'fuente', fontSize: 75, fill: 0xFF0000, padding: 20 }); // NPC 2
         this.score2 = new PIXI.Text('Texto 2', { fontFamily: 'fuente', fontSize: 75, fill: 0x00FF00, padding: 20 }); //Player
         this.score3 = new PIXI.Text('Texto 3', { fontFamily: 'fuente', fontSize: 75, fill: 0x0000FF, padding: 20 }); // NPC 1
-        this.reloj = new PIXI.Text(this.timer, { fontFamily: 'fuente', fontSize: 67, fill: 0x0F000F, padding: 20 }); // Reloj 
+        this.reloj = new PIXI.Text(this.timer, { fontFamily: 'fuente', fontSize: 67, fill: 0x0F000F, padding: 20 }); // Reloj
+        this.jabonesT = new PIXI.Text(this.cantJabones, { fontFamily: 'fuente', fontSize: 67, fill: 0x0F000F, padding: 20 }); // Texto de Jabones 
+        // 
 
         // Ponemos las imagenes de la UI, GRACIAS NACHITOOO :3 !
         this.texto1 = PIXI.Sprite.from('./img/resaltador.png');
         this.texto2 = PIXI.Sprite.from('./img/resaltador.png');
         this.texto3 = PIXI.Sprite.from('./img/resaltador.png');
         this.fondoTimer = PIXI.Sprite.from('./img/fondotimer.png');
+        this.jabonIMG = PIXI.Sprite.from('./img/jabon.png');
 
         const lengthSprite = 95;
 
         this.texto1.position.set(10, 45);
         this.texto2.position.set(10, 45 + (lengthSprite));
         this.texto3.position.set(10, 45 + (lengthSprite * 2));
+        // Para pos del display de jabones.
+
+        let offsetJaboncitoX = 175;
+        let offsetJaboncitoY = -150;
+        let xJaboncito = (this.juego.app.screen.width - this.anchoMM - this.paddingMM - 50) - offsetJaboncitoX;
+        let yJaboncito = (this.juego.app.screen.height - this.altoMM - this.paddingMM - 30) - offsetJaboncitoY;
+        this.jabonIMG.position.set(xJaboncito, yJaboncito);
+        //
+        
 
         this.container.addChild(this.texto1);
         this.container.addChild(this.texto2);
         this.container.addChild(this.texto3);
+        this.container.addChild(this.jabonIMG);
+        
 
         this.texto1.scale.set(0.9); // Para cambiar la escala de la imagen.
         this.texto2.scale.set(0.9);
@@ -50,9 +65,12 @@ class UI {
         this.score2.position.set(70, 135);
         this.score3.position.set(70, 230);
         this.reloj.position.set(window.innerWidth / 2 - this.reloj.width / 2, 50); // Centrar el reloj
+        let offsetJabonTx = 75;
+        let offsetJabonTy = -25;
+
+        this.jabonesT.position.set(this.jabonIMG.position.x + offsetJabonTx, this.jabonIMG.position.y + offsetJabonTy);
 
         // Posicionar la imagen del fondo del reloj centrada con respecto al reloj
-        //this.fondoTimer.position.set(this.reloj.x + this.reloj.width / 2 - this.fondoTimer.width / 2 - 80, this.reloj.y + this.reloj.height / 2 - this.fondoTimer.height / 2 - 75);
         this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 20);
 
         // Agregar los textos al container
@@ -61,6 +79,7 @@ class UI {
         this.container.addChild(this.score3);
         this.container.addChild(this.fondoTimer);
         this.container.addChild(this.reloj);
+        this.container.addChild(this.jabonesT);
 
         // Agregamos el minimapa
         this.ponerMinimapa();
@@ -79,6 +98,8 @@ class UI {
             this.imagenMinimap.position.set(xPos -40, yPos - 35);
             //console.log("MINIMAPA X Y REAL: ", this.minimap.position);
             //console.log(this.minimap.position);
+            this.jabonIMG.position.set(xPos - offsetJaboncitoX, yPos - offsetJaboncitoY);
+            this.jabonesT.position.set(this.jabonIMG.position.x + offsetJabonTx, this.jabonIMG.position.y + offsetJabonTy);
         }
 
         // Para arreglar lo del tama;o si cambia.
@@ -115,6 +136,13 @@ class UI {
             this.clockStart = ahora;
             this.reloj.text = (this.timer < 10) ? "0" + this.timer : this.timer;
         }
+    }
+
+    cambiarDisplayJabon(cant)
+    {
+        this.cantJabones += cant;
+        // Hacer que cambie el display.
+        this.jabonesT.text = this.cantJabones; 
     }
 
     update() {

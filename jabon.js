@@ -25,6 +25,8 @@ class Jabon extends Objeto {
   onCollision(player) {
     // Cuando tocamos un jabon lo agarramos y lo quitamos del piso.
     player.jabonesRecogidos += 1;
+    // Cambiamos el display.
+    this.juego.ui.cambiarDisplayJabon(1);
     console.log("Se agarro un jabon: ", player.jabonesRecogidos);
     this.container.removeChild(this.sprite);
     this.juego.removeJabon(this);

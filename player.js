@@ -77,6 +77,7 @@ class Player extends Objeto {
       this.jabonesRecogidos -= 1;
       this.estado = this.estados.JABONOSO;
       this.timer = this.duracionPowerUp;
+      this.juego.ui.cambiarDisplayJabon(-1);
       console.log("Usaste un jabón! Jabones restantes: " + this.jabonesRecogidos);
     }
   }

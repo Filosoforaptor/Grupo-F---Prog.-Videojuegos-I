@@ -32,9 +32,8 @@ class Juego {
 
     this.ponerJabones(20);
     this.ponerProtagonista();
-    this.ponerJuguetes(20);
-
     this.ponerNPCs();
+    this.ponerJuguetes(20);
 
     this.ponerBurbujas(165, 0xFF0000); //500 rojo  0xFF0000
     this.ponerBurbujas(165, 0x00FF00); //500 verde
@@ -133,16 +132,32 @@ class Juego {
   }
 
   ponerJuguetes(cant) {
+    const radio = 400; // Radio de verificación en píxeles para que no spawneen uno arriba de otro.
+
     for (let i = 0; i < cant; i++) {
-      this.obstaculos.push(
-        new Juguete(
-          Math.random() * this.canvasWidth,
-          Math.random() * this.canvasHeight,
-          this
-        )
-      );
+      let x, y, colision;
+
+      do {
+        x = Math.random() * this.canvasWidth;
+        y = Math.random() * this.canvasHeight;
+        colision = false;
+
+        for (let obstaculo of this.obstaculos) {
+          console.log(obstaculo);
+          const distancia = calculoDeDistancia(obstaculo.container.x, obstaculo.container.y, x, y);
+          console.log(obstaculo.container.x, obstaculo.container.y, x, y, distancia);
+
+          if (distancia < radio) {
+            colision = true;
+            break;
+          }
+        }
+      } while (colision);
+
+      this.obstaculos.push(new Juguete(x, y, this));
     }
   }
+
 
   ponerJabones(cant) {
     for (let i = 0; i < cant; i++) {
@@ -201,29 +216,29 @@ class Juego {
   }
 
   actualizar() {
-  // Lógica de actualización del juego
-  this.contadorDeFrames++;
+    // Lógica de actualización del juego
+    this.contadorDeFrames++;
 
-  // Otras actualizaciones del juego
-  this.ui.update();
-  this.player.update();
-  this.npc1.update();
-  this.npc2.update();
+    // Otras actualizaciones del juego
+    this.ui.update();
+    this.player.update();
+    this.npc1.update();
+    this.npc2.update();
 
-  this.burbujas.forEach((burbuja) => {
-    burbuja.update();
-  });
+    this.burbujas.forEach((burbuja) => {
+      burbuja.update();
+    });
 
-  this.decorados.forEach((decorado) => {
-    decorado.update();
-  });
+    this.decorados.forEach((decorado) => {
+      decorado.update();
+    });
 
-  this.obstaculos.forEach((juguete) => {
-    juguete.update();
-  });
+    this.obstaculos.forEach((juguete) => {
+      juguete.update();
+    });
 
-  this.moverCamara();
-}
+    this.moverCamara();
+  }
 
   moverCamara() {
     let lerpFactor = 0.05;
@@ -337,8 +352,7 @@ class Juego {
       // Creo la imagen del jabon UI
       // Me fijo que jabon elegir segun el ganador.
       let url = "";
-      switch(winner)
-      {
+      switch (winner) {
         case "2":
           url += "jabonA.png";
           break;
@@ -354,8 +368,8 @@ class Juego {
           break;
       }
       this.jabonUI = PIXI.Sprite.from('./img/' + url);
-      this.jabonUI.anchor.set(0.5); 
-      let xUIJabon = (this.app.screen.width / 2 );
+      this.jabonUI.anchor.set(0.5);
+      let xUIJabon = (this.app.screen.width / 2);
       let yUIJabon = (this.app.screen.height / 2);
       this.jabonUI.position.set(xUIJabon, yUIJabon);
       this.app.stage.addChild(this.jabonUI);
@@ -369,7 +383,7 @@ class Juego {
         videoSprite.width = this.app.screen.width;
         videoSprite.height = this.app.screen.height;;
 
-        this.jabonUI.position.set((this.app.screen.width / 2 ) , (this.app.screen.height / 2) ); 
+        this.jabonUI.position.set((this.app.screen.width / 2), (this.app.screen.height / 2));
       }
 
       // Para arreglar lo del tama;o si cambia.
