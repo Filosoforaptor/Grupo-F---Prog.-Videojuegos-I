@@ -171,6 +171,10 @@ class UI {
         // Nos fijamos el ganador y lo pasamos.
         let winner = this.getHighestScore();
         this.juego.StartEndScreen(winner);
+        // Quitamos los jabones restantes. xq quitar el evento no funciono..
+        this.juego.player.jabonesRecogidos = 0;
+        // Ponemos la musica de game Over.
+        playMusic(canciones.GAME_OVER, 0.1);
     }
 
     ponerMinimapa() {

@@ -85,6 +85,9 @@ videoElement.addEventListener('canplaythrough', () => {
             window.removeEventListener('keydown', keydownHandler);
             window.removeEventListener("resize", resize);
             app = StartGame();
+
+            // Arrancamos la musica del juego
+            playMusic(canciones.IN_GAME, 0.09);
         }
     };
 

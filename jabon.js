@@ -28,6 +28,8 @@ class Jabon extends Objeto {
     // Cambiamos el display.
     this.juego.ui.cambiarDisplayJabon(1);
     console.log("Se agarro un jabon: ", player.jabonesRecogidos);
+    // Reproducimos un sonidito.
+    playSFX(sfx.agarrarJabon, 0.5);
     this.container.removeChild(this.sprite);
     this.juego.removeJabon(this);
   }

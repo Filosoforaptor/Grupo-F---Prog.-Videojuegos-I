@@ -17,12 +17,12 @@ class Player extends Objeto {
     // Variable para almacenar la cantidad de jabones recogidos
     this.jabonesRecogidos = 0; 
 
-    // Evento para detectar el clic del mouse
-    window.addEventListener('click', (event) => {
+    let handleMouseClick = (event) => {
       if (event.button === 0) { // Botón izquierdo del mouse
         this.usarJabon();
-      }
-    });
+      }};
+    // Evento para detectar el clic del mouse
+    window.addEventListener('click', handleMouseClick);
 
     this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
       this.listo = true;
@@ -78,6 +78,8 @@ class Player extends Objeto {
       this.estado = this.estados.JABONOSO;
       this.timer = this.duracionPowerUp;
       this.juego.ui.cambiarDisplayJabon(-1);
+      // Reproducimos un ruidito
+      playSFX(sfx.usarJabon, 0.4);
       console.log("Usaste un jabón! Jabones restantes: " + this.jabonesRecogidos);
     }
   }
