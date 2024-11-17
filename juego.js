@@ -48,7 +48,7 @@ class Juego {
     //this.prenderFiltroPixel(4); //4
 
     this.ponerListeners();
-
+    
     PIXI.Loader.shared.load((loader, resources) => {
       loader.callbacks.forEach(cb => cb(loader, resources));
     });
@@ -56,7 +56,7 @@ class Juego {
     setTimeout(() => {
       this.app.ticker.add(this.actualizar.bind(this));
       window.__PIXI_APP__ = this.app;
-    }, 100);
+    }, 100); 
   }
 
   ponerPastos(cant) {

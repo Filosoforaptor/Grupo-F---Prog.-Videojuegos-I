@@ -1,49 +1,3 @@
-/*
-// Cargamos Audios y efectos de sonido y configurar el audio
-const audioMenu = new Audio('./music/inMenu.mp3');
-const audioGameOver = new Audio('./music/inGame.wav');
-
-// SFX
-const agarrarJabon = new Audio('./music/agarrarJabon.wav'); 
-const usarJabon = new Audio('./music/usarJabon.wav');
-
-const canciones = { MENU : audioMenu, GAME_OVER : audioGameOver};
-const sfx = { agarrarJabon : agarrarJabon, usarJabon : usarJabon};
-
-let player;
-
-// Función para reproducir la música
-function playMusic(song) {
-    if (!player || player.paused) {
-        player = song;
-        player.loop = true;
-        player.play();
-        console.log('Música reproducida');
-    } else {
-        pauseMusic();
-        playMusic(song);
-    }
-}
-
-// Ej uso playMusic(canciones[MENU]);
-
-// Función para pausar la música
-function pauseMusic() {
-    if (!player.paused) {
-        player.pause();
-        console.log('Música pausada');
-    }
-}
-
-// Función para reproducir el efecto de sonido (SFX)
-function playSFX(sonido) {
-    sonido.currentTime = 0; // Reiniciar el audio para permitir reproducción múltiple
-    sonido.play();
-    console.log('Efecto de sonido reproducido');
-}
-*/
-
-
 // List of files to load
 let audioMenu = PIXI.sound.Sound.from({
     url: './music/inMenu.mp3',
@@ -115,7 +69,7 @@ function pauseMusic() {
 }
 
 // Función para reproducir el efecto de sonido (SFX)
-function playSFX(sonido, vol) {
+function playSFX(sonido, vol = 1) {
     sonido.volume = vol;
     sonido.play();
     console.log('Efecto de sonido reproducido');

@@ -115,9 +115,9 @@ class Npc extends Objeto {
       }
     });
     //(currentTarget);
-    if (currentTarget != undefined) {
+    /*if (currentTarget != undefined) {
       this.linea.drawLineToTarget(currentTarget.container.x, currentTarget.container.y);
-    }
+    }*/
     return currentTarget;
   }
 

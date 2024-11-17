@@ -3,7 +3,7 @@ class Jabon extends Objeto {
     super(x, y, 0, juego);
 
     this.juego = juego;
-    this.speedUpValue = 150000;
+    //this.speedUpValue = 150000;
 
     let url = "./img/jabon.png";
 

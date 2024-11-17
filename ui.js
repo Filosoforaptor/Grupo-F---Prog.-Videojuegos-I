@@ -151,6 +151,7 @@ class UI {
         this.updateMinimap();
     }
 
+    // Te dice quien gano.
     getHighestScore() {
         let s1 = this.juego.npc2.contadorColisiones;
         let s2 = this.juego.player.contadorColisiones;
