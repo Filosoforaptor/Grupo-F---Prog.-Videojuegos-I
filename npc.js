@@ -84,7 +84,7 @@ class Npc extends Objeto {
 
         // Les cambio el tama;o para que sea mas grande.
         for (let sprite of Object.values(this.spritesAnimados)) {
-          sprite.scale.set(0.5);
+          sprite.scale.set(0.6);
           sprite.anchor.set(0.5, 1);
         }
       });
@@ -172,7 +172,7 @@ class Npc extends Objeto {
   }
 
   calcularYAplicarFuerzas() {
-    //EN FUERZAS VOY A SUMAR TODAS LAS FUERZAS Q FRAME A FRAME ACTUAN SOBRE EL PERRITO
+    //EN FUERZAS VOY A SUMAR TODAS LAS FUERZAS Q FRAME A FRAME ACTUAN SOBRE EL DINOSAURIO
     let fuerzas = new PIXI.Point(0, 0);
     //ATRACCION A BURBUJA
     const vecAtraccionMouse = this.atraccionATarget();

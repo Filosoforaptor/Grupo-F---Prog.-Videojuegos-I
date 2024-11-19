@@ -60,6 +60,7 @@ videoElement.addEventListener('canplaythrough', () => {
 
                         tuto.width = app.screen.width;
                         tuto.height = app.screen.height;
+                        videoElement.loop = false;
 
                         // Añadir el sprite de la imagen al escenario
                         app.stage.addChild(tuto);

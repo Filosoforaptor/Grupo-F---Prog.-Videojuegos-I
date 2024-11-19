@@ -11,7 +11,7 @@ let audioMenu = PIXI.sound.Sound.from({
     }
 });
 let audioInGame = PIXI.sound.Sound.from({
-    url: './music/inGame.wav',
+    url: './music/inGame.mp3',
     preload: true,
     loaded: function(err, sound) {
         console.log("InGame Precargado.");
@@ -25,14 +25,14 @@ let audioGameOver = PIXI.sound.Sound.from({
     }
 });
 let agarrarJabon = PIXI.sound.Sound.from({
-    url: './music/agarrarJabon.wav',
+    url: './music/agarrarJabon.mp3',
     preload: true,
     loaded: function(err, sound) {
         console.log("SFX 1 Precargado.");
     }
 });
 let usarJabon = PIXI.sound.Sound.from({
-    url: './music/usarJabon.wav',
+    url: './music/usarJabon.mp3',
     preload: true,
     loaded: function(err, sound) {
         console.log("SFX 2 Precargado.");

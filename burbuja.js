@@ -10,14 +10,14 @@ class Burbuja extends Objeto {
     this.equipoParaUpdate = Math.floor(Math.random() * 9) + 1;
     this.juego = juego;
     this.grid = juego.grid; // Referencia a la grid
-    this.vision = 120 + Math.floor(Math.random() * 150); //en pixels
+    this.vision = 220 + Math.floor(Math.random() * 150); //en pixels
     this.vida = 1;
     this.debug = 0;
     this.tint = tint;
 
     this.cargarVariosSpritesAnimadosDeUnSoloArchivo(
       {
-        archivo: "./img/oveja.png",
+        archivo: "./img/burbuja.png",
         frameWidth: 64,
         frameHeight: 64,
         velocidad: velMax * 0.1,

@@ -26,6 +26,7 @@ class Juego {
     this.decorados = [];
 
     this.app.stage.sortableChildren = true;
+    this.gameContainer.sortableChildren = true;
     this.ui = new UI(this);
 
     this.ponerFondo();
@@ -58,7 +59,7 @@ class Juego {
       window.__PIXI_APP__ = this.app;
     }, 100); 
   }
-
+/*
   ponerPastos(cant) {
     for (let i = 0; i < cant; i++) {
       this.decorados.push(
@@ -69,7 +70,7 @@ class Juego {
         )
       );
     }
-  }
+  }*/
 
   ponerFondo() {
     // Crear un patrón a partir de una imagen
@@ -197,7 +198,7 @@ class Juego {
   }
 
   ponerListeners() {
-    // Sirven para mover el perro.
+    // Sirven para mover el dinobebe.
     this.app.view.addEventListener("mousemove", this.onMouseMove.bind(this));
     this.app.view.addEventListener("mouseleave", () => {
       this.mouse = null;

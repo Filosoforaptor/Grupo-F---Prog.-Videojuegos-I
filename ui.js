@@ -42,10 +42,11 @@ class UI {
         // Para pos del display de jabones.
 
         let offsetJaboncitoX = 175;
-        let offsetJaboncitoY = -150;
+        let offsetJaboncitoY = -140;
         let xJaboncito = (this.juego.app.screen.width - this.anchoMM - this.paddingMM - 50) - offsetJaboncitoX;
         let yJaboncito = (this.juego.app.screen.height - this.altoMM - this.paddingMM - 30) - offsetJaboncitoY;
-        this.jabonIMG.position.set(xJaboncito, yJaboncito);
+        this.jabonIMG.position.set(xJaboncito , yJaboncito );
+        this.jabonIMG.scale.set(1.5);
         //
         
 
@@ -65,13 +66,13 @@ class UI {
         this.score2.position.set(70, 135);
         this.score3.position.set(70, 230);
         this.reloj.position.set(window.innerWidth / 2 - this.reloj.width / 2, 50); // Centrar el reloj
-        let offsetJabonTx = 75;
-        let offsetJabonTy = -25;
+        let offsetJabonTx = 85;
+        let offsetJabonTy = -5;
 
         this.jabonesT.position.set(this.jabonIMG.position.x + offsetJabonTx, this.jabonIMG.position.y + offsetJabonTy);
 
         // Posicionar la imagen del fondo del reloj centrada con respecto al reloj
-        this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 20);
+        this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 26);
 
         // Agregar los textos al container
         this.container.addChild(this.score1);
@@ -89,7 +90,7 @@ class UI {
             // LINEA IMPORTANTE O NO ANDAN LOS RESIZE
             this.juego.app.renderer.resize(window.innerWidth, window.innerHeight);
             // Resizear el Reloj
-            this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 20);
+            this.fondoTimer.position.set((window.innerWidth / 2 - this.reloj.width / 2) -33 , 26);
             this.reloj.position.set(window.innerWidth / 2 - this.reloj.width / 2, 50); // Centrar el reloj
             // Cambiamos de lugar el minimapa.
             let xPos = this.juego.app.screen.width - this.anchoMM - this.paddingMM -50;

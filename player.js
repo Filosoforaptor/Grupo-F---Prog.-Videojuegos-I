@@ -24,11 +24,11 @@ class Player extends Objeto {
     // Evento para detectar el clic del mouse
     window.addEventListener('click', handleMouseClick);
 
-    this.cargarSpriteSheetAnimadoDeJSON("./img/perro/perro.json", (e) => {
+    this.cargarSpriteSheetAnimadoDeJSON("./img/dinoBebe/DinoBebe.json", (e) => {
       this.listo = true;
-      this.cambiarSprite("correrLado");
+      this.cambiarSprite("corriendoLado");
       for (let sprite of Object.values(this.spritesAnimados)) {
-        sprite.scale.set(2);
+        sprite.scale.set(1);
         sprite.anchor.set(0.5, 1);
       }
     });
@@ -113,20 +113,27 @@ class Player extends Objeto {
 
   manejarSprites() {
     if (Math.abs(this.velocidad.x) < 0.3 && Math.abs(this.velocidad.y) < 0.3) {
-      if (this.spriteActual != "idle") {
-        this.cambiarSprite("sentandoseLado", 0, false, () => {
-          this.cambiarSprite("idle");
-        });
-      }
+        if (this.spriteActual != "idle" && this.spriteActual != "acostandose") {
+            this.cambiarSprite("acostandose", 0, false, () => {
+                this.cambiarSprite("idle");
+            });
+        }
     } else {
-      this.calcularAngulo();
-      this.ajustarSpriteSegunAngulo();
+        if (this.spriteActual == "idle" || this.spriteActual == "levantandose") {
+            this.cambiarSprite("levantandose", 0, false, () => {
+                this.calcularAngulo();
+                this.ajustarSpriteSegunAngulo();
+            });
+        } else {
+            this.calcularAngulo();
+            this.ajustarSpriteSegunAngulo();
+        }
     }
     this.hacerQueLaVelocidadDeLaAnimacionCoincidaConLaVelocidad();
-  }
+}
 
   calcularYAplicarFuerzas() {
-    //EN FUERZAS VOY A SUMAR TODAS LAS FUERZAS Q FRAME A FRAME ACTUAN SOBRE EL PERRITO
+    //EN FUERZAS VOY A SUMAR TODAS LAS FUERZAS Q FRAME A FRAME ACTUAN SOBRE EL DINOSAURIO
     let fuerzas = new PIXI.Point(0, 0);
     //ATRACCION AL MOUSE
     const vecAtraccionMouse = this.atraccionAlMouse();
@@ -164,14 +171,14 @@ class Player extends Objeto {
     ) {
       //SI LA VELOCIDAD ES LA MITAD DE LA VELOCIDAD MAXIMA, CAMBIO AL SPRITE DE CAMINAR
       if (velLineal < this.velocidadMax * 0.5) {
-        this.cambiarSprite("caminarLado");
+        this.cambiarSprite("corriendoLado");
       } else {
-        this.cambiarSprite("correrLado");
+        this.cambiarSprite("corriendoLado");
       }
     } else if (this.angulo > 45 && this.angulo < 135) {
-      this.cambiarSprite("correrArriba");
+      this.cambiarSprite("arriba");
     } else if (this.angulo > 225 && this.angulo < 315) {
-      this.cambiarSprite("correrAbajo");
+      this.cambiarSprite("abajo");
     }
   }
 
