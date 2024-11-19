@@ -85,6 +85,9 @@ class UI {
         // Agregamos el minimapa
         this.ponerMinimapa();
 
+        // Agregamos el Hiding de Score en mouse Over
+        this.implementarMouseOverScores();
+
         // Manejamos el resize de la UI
         const resizeUI = () => {
             // LINEA IMPORTANTE O NO ANDAN LOS RESIZE
@@ -176,7 +179,7 @@ class UI {
         // Quitamos los jabones restantes. xq quitar el evento no funciono..
         this.juego.player.jabonesRecogidos = 0;
         // Ponemos la musica de game Over.
-        playMusic(canciones.GAME_OVER, 0.1);
+        playMusic(canciones.GAME_OVER, 0.8);
     }
 
     ponerMinimapa() {
@@ -215,6 +218,124 @@ class UI {
         this.ponerNPCsEnMinimapa();
         this.ponerBurbujasEnMinimapa();
 
+        // Hacemos que el minimapa tenga transparencia cuando se le coloca el mouse arriba.
+        this.implementarMouseOverMinimapa();
+        
+    }
+
+    implementarMouseOverScores(){
+        // Hacer que el minimapa se haga invisible cuando uno pasa el mouse por encima / una nacheada
+        this.texto1.interactive = true;
+        this.texto2.interactive = true;
+        this.texto3.interactive = true;
+        this.score1.interactive = true;
+        this.score2.interactive = true;
+        this.score3.interactive = true;
+
+        this.texto1.on('mouseover', () => {
+            this.texto1.alpha = 0.5;
+            this.texto2.alpha = 0.5;
+            this.texto3.alpha = 0.5;
+            this.score1.alpha = 0.5;
+            this.score2.alpha = 0.5;
+            this.score3.alpha = 0.5;
+        });
+        this.texto1.on('mouseout', () => {
+            this.texto1.alpha = 1;
+            this.texto2.alpha = 1;
+            this.texto3.alpha = 1;
+            this.score1.alpha = 1;
+            this.score2.alpha = 1;
+            this.score3.alpha = 1;
+        });
+        //
+        this.texto2.on('mouseover', () => {
+            this.texto1.alpha = 0.5;
+            this.texto2.alpha = 0.5;
+            this.texto3.alpha = 0.5;
+            this.score1.alpha = 0.5;
+            this.score2.alpha = 0.5;
+            this.score3.alpha = 0.5;
+        });
+        this.texto2.on('mouseout', () => {
+            this.texto1.alpha = 1;
+            this.texto2.alpha = 1;
+            this.texto3.alpha = 1;
+            this.score1.alpha = 1;
+            this.score2.alpha = 1;
+            this.score3.alpha = 1;
+        });
+        //
+        this.texto3.on('mouseover', () => {
+            this.texto1.alpha = 0.5;
+            this.texto2.alpha = 0.5;
+            this.texto3.alpha = 0.5;
+            this.score1.alpha = 0.5;
+            this.score2.alpha = 0.5;
+            this.score3.alpha = 0.5;
+        });
+        this.texto3.on('mouseout', () => {
+            this.texto1.alpha = 1;
+            this.texto2.alpha = 1;
+            this.texto3.alpha = 1;
+            this.score1.alpha = 1;
+            this.score2.alpha = 1;
+            this.score3.alpha = 1;
+        });
+        //
+        this.score1.on('mouseover', () => {
+            this.texto1.alpha = 0.5;
+            this.texto2.alpha = 0.5;
+            this.texto3.alpha = 0.5;
+            this.score1.alpha = 0.5;
+            this.score2.alpha = 0.5;
+            this.score3.alpha = 0.5;
+        });
+        this.score1.on('mouseout', () => {
+            this.texto1.alpha = 1;
+            this.texto2.alpha = 1;
+            this.texto3.alpha = 1;
+            this.score1.alpha = 1;
+            this.score2.alpha = 1;
+            this.score3.alpha = 1;
+        });
+        //
+        this.score2.on('mouseover', () => {
+            this.texto1.alpha = 0.5;
+            this.texto2.alpha = 0.5;
+            this.texto3.alpha = 0.5;
+            this.score1.alpha = 0.5;
+            this.score2.alpha = 0.5;
+            this.score3.alpha = 0.5;
+        });
+        this.score2.on('mouseout', () => {
+            this.texto1.alpha = 1;
+            this.texto2.alpha = 1;
+            this.texto3.alpha = 1;
+            this.score1.alpha = 1;
+            this.score2.alpha = 1;
+            this.score3.alpha = 1;
+        });
+        //
+        this.score3.on('mouseover', () => {
+            this.texto1.alpha = 0.5;
+            this.texto2.alpha = 0.5;
+            this.texto3.alpha = 0.5;
+            this.score1.alpha = 0.5;
+            this.score2.alpha = 0.5;
+            this.score3.alpha = 0.5;
+        });
+        this.score3.on('mouseout', () => {
+            this.texto1.alpha = 1;
+            this.texto2.alpha = 1;
+            this.texto3.alpha = 1;
+            this.score1.alpha = 1;
+            this.score2.alpha = 1;
+            this.score3.alpha = 1;
+        });
+    }
+
+    implementarMouseOverMinimapa(){
         // Hacer que el minimapa se haga invisible cuando uno pasa el mouse por encima / una nacheada
         this.imagenMinimap.interactive = true;
         this.imagenMinimap.on('mouseover', () => {

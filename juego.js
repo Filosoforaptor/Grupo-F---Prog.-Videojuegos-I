@@ -23,7 +23,6 @@ class Juego {
     this.burbujas = [];
     this.obstaculos = [];
     this.jabones = [];
-    this.decorados = [];
 
     this.app.stage.sortableChildren = true;
     this.gameContainer.sortableChildren = true;
@@ -59,18 +58,7 @@ class Juego {
       window.__PIXI_APP__ = this.app;
     }, 100); 
   }
-/*
-  ponerPastos(cant) {
-    for (let i = 0; i < cant; i++) {
-      this.decorados.push(
-        new Pasto(
-          Math.random() * this.canvasWidth,
-          Math.random() * this.canvasHeight,
-          this
-        )
-      );
-    }
-  }*/
+
 
   ponerFondo() {
     // Crear un patrón a partir de una imagen
@@ -228,10 +216,6 @@ class Juego {
 
     this.burbujas.forEach((burbuja) => {
       burbuja.update();
-    });
-
-    this.decorados.forEach((decorado) => {
-      decorado.update();
     });
 
     this.obstaculos.forEach((juguete) => {
